@@ -18,14 +18,11 @@ namespace Mobowski.Core.Sports
 			this.Mode = parseMode;
 		}
 
-		#region implemented abstract members of ResultParserBase
-
-		public void Parse (Result result, object data)
+		private Result ParseResultClub (XmlNode node)
 		{
-			var node = (XmlNode)data;
+			Result result = new Result ();
 
-			switch (Mode) {
-			case ParseMode.Club:
+			try {
 				result.HomeTeam = (string)node.SelectSingleNode ("./thuisteam").InnerText;
 				result.GuestTeam = (string)node.SelectSingleNode ("./uitteam").InnerText;
 
@@ -34,9 +31,19 @@ namespace Mobowski.Core.Sports
 					result.HomeTeamScore = Convert.ToInt32 (childNode.Attributes ["voor"].InnerText);
 					result.GuestTeamScore = Convert.ToInt32 (childNode.Attributes ["tegen"].InnerText);
 				}
+			} catch (Exception ex) {
+				throw ex;
+			}
 
-				break;
-			case ParseMode.Team:
+			return result;
+		}
+
+		private Result ParseResultTeam (XmlNode node)
+		{
+			// TODO: this method could probably be cleaner ...
+			Result result = new Result ();
+
+			try {
 				var childNodes = node.ChildNodes;
 				if (childNodes.Count != 3) {
 					throw new Exception ("parsing aborted; invalid count of child nodes: " + childNodes.Count);
@@ -67,9 +74,30 @@ namespace Mobowski.Core.Sports
 				} else {
 					throw new Exception ("failed to parse score from string: " + text);
 				}
+			} catch (Exception ex) {
+				throw ex;
+			}
 
+			return result;
+		}
+
+		#region IParser implementation
+
+		public Result Parse (object data)
+		{
+			var node = (XmlNode)data;
+			Result result = null;
+
+			switch (Mode) {
+			case ParseMode.Club:
+				result = ParseResultClub (node);
+				break;
+			case ParseMode.Team:
+				result = ParseResultTeam (node);
 				break;
 			}
+
+			return result;
 		}
 
 		#endregion

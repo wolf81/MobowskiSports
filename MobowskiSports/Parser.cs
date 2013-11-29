@@ -14,6 +14,6 @@ namespace Mobowski.Core.Sports
 		/// </summary>
 		/// <param name="t">T.</param>
 		/// <param name="data">Data.</param>
-		void Parse (T t, object data);
+		T Parse (object data);
 	}
 }

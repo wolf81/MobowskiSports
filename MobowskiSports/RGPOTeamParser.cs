@@ -8,12 +8,19 @@ namespace Mobowski.Core.Sports
 
 		#region IParser implementation
 
-		public void Parse (Team team, object data)
+		public Team Parse (object data)
 		{
+			var team = new Team ();
 			var node = (XmlNode)data;
 
-			team.Name = (string)node.SelectSingleNode ("naam").InnerText;
-			team.Identifier = Convert.ToInt32 (node.SelectSingleNode ("id").InnerText);
+			try {
+				team.Name = (string)node.SelectSingleNode ("naam").InnerText;
+				team.Identifier = Convert.ToInt32 (node.SelectSingleNode ("id").InnerText);
+			} catch (Exception ex) {
+				throw ex;
+			}
+
+			return team;
 		}
 
 		#endregion

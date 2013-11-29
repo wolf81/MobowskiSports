@@ -29,7 +29,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNTeamParser ();
 					var nodes = doc.SelectNodes ("//team");
 					foreach (var node in nodes) {
-						var team = new Team (parser, node);
+						var team = parser.Parse (node);
 						teams.Add (team);
 					}
 				}
@@ -51,7 +51,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNMatchParser ();
 					var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
 					foreach (var node in nodes) {
-						var match = new Match (parser, node);
+						var match = parser.Parse (node);
 						matches.Add (match);
 					}
 				}
@@ -73,7 +73,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNMatchParser ();
 					var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
 					foreach (var node in nodes) {
-						var match = new Match (parser, node);
+						var match = parser.Parse (node);
 						matches.Add (match);
 					}
 				}
@@ -96,7 +96,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNStandingParser ();
 					var nodes = doc.SelectNodes ("//table/tbody/tr");
 					foreach (var node in nodes) {
-						var standing = new Standing (parser, node);
+						var standing = parser.Parse (node);
 						standings.Add (standing);
 					}
 				}
@@ -118,7 +118,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNResultParser (MCNResultParser.ParseMode.Club);
 					var nodes = doc.SelectNodes ("//wedstrijd");
 					foreach (var node in nodes) {
-						var result = new Result (parser, node);
+						var result = parser.Parse (node);
 						results.Add (result);
 					}
 				}
@@ -141,7 +141,7 @@ namespace Mobowski.Core.Sports
 					var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
 					var nodes = doc.SelectNodes ("//table/tbody/tr");
 					foreach (var node in nodes) {
-						var result = new Result (parser, node);
+						var result = parser.Parse (node);
 						results.Add (result);
 					}
 				}

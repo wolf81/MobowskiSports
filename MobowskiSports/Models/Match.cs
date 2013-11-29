@@ -31,13 +31,8 @@ namespace Mobowski.Core.Sports
 
 		public string OtherInfo { get; internal set; }
 
-		internal Match (IParser<Match> parser, object data)
+		internal Match ()
 		{
-			try {
-				parser.Parse (this, data);
-			} catch (Exception ex) {
-				throw new Exception ("failed to parse Match", ex);
-			}
 		}
 
 		public override string ToString ()

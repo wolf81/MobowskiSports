@@ -25,13 +25,8 @@ namespace Mobowski.Core.Sports
 
 		public int PointsDeduced { get; internal set; }
 
-		internal Standing (IParser<Standing> parser, object data)
+		internal Standing ()
 		{
-			try {
-				parser.Parse (this, data);
-			} catch (Exception ex) {
-				throw new Exception ("failed to parse Standing", ex);
-			}
 		}
 
 		public override string ToString ()

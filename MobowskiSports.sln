@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobowskiSports", "MobowskiSports\MobowskiSports.csproj", "{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SportsTest", "SportsTest\SportsTest.vbproj", "{87C2CD88-7760-4BEE-B2FF-6A87FB507EA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobowskiSportsTests", "MobowskiSportsTests\MobowskiSportsTests.csproj", "{5EC1168D-42A7-425F-830A-70612583BAF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +11,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EC1168D-42A7-425F-830A-70612583BAF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC1168D-42A7-425F-830A-70612583BAF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC1168D-42A7-425F-830A-70612583BAF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC1168D-42A7-425F-830A-70612583BAF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87C2CD88-7760-4BEE-B2FF-6A87FB507EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87C2CD88-7760-4BEE-B2FF-6A87FB507EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87C2CD88-7760-4BEE-B2FF-6A87FB507EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87C2CD88-7760-4BEE-B2FF-6A87FB507EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = MobowskiSportsTests\MobowskiSportsTests.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MobowskiSports\MobowskiSports.csproj
 	EndGlobalSection
 EndGlobal

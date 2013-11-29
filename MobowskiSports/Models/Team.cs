@@ -9,13 +9,8 @@ namespace Mobowski.Core.Sports
 
 		public string Name { get; internal set; }
 
-		internal Team (IParser<Team> parser, object data)
+		internal Team ()
 		{
-			try {
-				parser.Parse (this, data);
-			} catch (Exception ex) {
-				throw new Exception ("failed to parse Team", ex);
-			}
 		}
 	}
 }

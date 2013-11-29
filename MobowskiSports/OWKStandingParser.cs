@@ -7,13 +7,26 @@ using Newtonsoft.Json.Linq;
 
 namespace Mobowski.Core.Sports
 {
-  class OWKStandingParser : IParser<Standing>
-  {
+	class OWKStandingParser : IParser<Standing>
+	{
 
-    public void Parse(Standing t, object data)
-    {
-      JToken json = (JToken)data;
-      t.Team = (string)json.SelectToken("team_name");
-    }
-  }
+		#region IParser implementation
+
+		public Standing Parse (object data)
+		{
+			Standing standing = new Standing ();
+
+			try {
+				JToken json = (JToken)data;
+				standing.Team = (string)json.SelectToken ("team_name");
+			} catch (Exception ex) {
+				throw ex;
+			}
+
+			return standing;
+		}
+
+		#endregion
+
+	}
 }

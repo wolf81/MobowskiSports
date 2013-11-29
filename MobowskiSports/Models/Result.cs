@@ -13,13 +13,8 @@ namespace Mobowski.Core.Sports
 
 		public int? GuestTeamScore { get; internal set; }
 
-		internal Result (IParser<Result> parser, object data)
+		internal Result ()
 		{
-			try {
-				parser.Parse (this, data);
-			} catch (Exception ex) {
-				throw new Exception ("failed to parse Result", ex);
-			}
 		}
 
 		public override string ToString ()

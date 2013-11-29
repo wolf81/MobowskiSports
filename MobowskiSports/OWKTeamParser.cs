@@ -7,11 +7,17 @@ using Newtonsoft.Json.Linq;
 
 namespace Mobowski.Core.Sports
 {
-  class OWKTeamParser : IParser<Team>
-  {
-    public void Parse(Team t, object data)
-    {
-      throw new NotImplementedException();
-    }
-  }
+	class OWKTeamParser : IParser<Team>
+	{
+
+		#region IParser implementation
+
+		public Team Parse (object data)
+		{
+			throw new NotImplementedException ();
+		}
+
+		#endregion
+
+	}
 }

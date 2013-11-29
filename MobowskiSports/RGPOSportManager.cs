@@ -90,7 +90,7 @@ namespace Mobowski.Core.Sports
 						var parser = new RGPOTeamParser ();
 						var nodes = doc.SelectNodes ("//team");
 						foreach (var node in nodes) {
-							var team = new Team (parser, node);
+							var team = parser.Parse (node);
 							teams.Add (team);
 						}
 					}
@@ -116,7 +116,7 @@ namespace Mobowski.Core.Sports
 						var parser = new RGPOMatchParser ();
 						var nodes = doc.SelectNodes ("//wedstrijd");
 						foreach (var node in nodes) {
-							var match = new Match (parser, node);
+							var match = parser.Parse (node);
 							matches.Add (match);
 						}
 					}
@@ -160,7 +160,7 @@ namespace Mobowski.Core.Sports
 						var parser = new RGPOStandingParser ();
 						var nodes = doc.SelectNodes ("//ranglijst/ranglijstitem");
 						foreach (var node in nodes) {
-							var standing = new Standing (parser, node);
+							var standing = parser.Parse (node);
 							standings.Add (standing);
 						}
 					}
@@ -197,7 +197,7 @@ namespace Mobowski.Core.Sports
 						foreach (var node in nodes) {
 							// only parse results from the past
 
-							var result = new Result (parser, node);
+							var result = parser.Parse (node);
 							if (result.GuestTeamScore != null && result.HomeTeamScore != null) {
 								results.Add (result);
 							}
