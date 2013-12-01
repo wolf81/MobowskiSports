@@ -95,6 +95,9 @@ namespace Mobowski.Core.Sports
 
 		public override Task<List<Standing>> RetrieveStandingsAsync (ClubBase club, Team team)
 		{
+			// PLEASE NOTE: due to a limitation in the app we just parse the first standing here. Until we implement
+			//	poules, we just have to assume the first standing is the correct one.
+
 			return Task.Run (() => {
 				var standings = new List<Standing> ();
 
@@ -118,30 +121,50 @@ namespace Mobowski.Core.Sports
 		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club)
 		{
 			return Task.Run (() => {
-				var teams = new List<Result> ();
+				var results = new List<Result> ();
 
 				using (var client = new WebClient ()) {
 					var jsonString = client.DownloadString (_resultsUrl);
-					var json = JToken.Parse (jsonString);
+					var json = (JObject)JToken.Parse (jsonString);
 					var parser = new OWKResultParser ();
+
+					var keys = json.Properties ().Select (p => p.Name).ToList ();
+					foreach (var key in keys) {
+						var matchesJson = json [key] ["items"];
+
+						foreach (var matchJson in matchesJson) {
+							var match = parser.Parse (matchJson);
+							results.Add (match);
+						}
+					}
 				}
 
-				return teams;
+				return results;
 			});
 		}
 
 		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club, Team team)
 		{
 			return Task.Run (() => {
-				var teams = new List<Result> ();
+				var results = new List<Result> ();
 
 				using (var client = new WebClient ()) {
 					var jsonString = client.DownloadString (_resultsUrl);
-					var json = JToken.Parse (jsonString);
+					var json = (JObject)JToken.Parse (jsonString);
 					var parser = new OWKResultParser ();
+
+					var keys = json.Properties ().Select (p => p.Name).ToList ();
+					foreach (var key in keys) {
+						var matchesJson = json [key] ["items"];
+
+						foreach (var matchJson in matchesJson) {
+							var match = parser.Parse (matchJson);
+							results.Add (match);
+						}
+					}
 				}
 
-				return teams;
+				return results;
 			});
 		}
 

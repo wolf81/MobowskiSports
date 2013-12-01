@@ -103,6 +103,15 @@ namespace MobowskiSportsTests
 			var standings = manager.RetrieveStandingsAsync (club, team).Result;
 			Assert.True (standings != null && standings.Count > 0);
 		}
+
+		[Test ()]
+		public void TestOWKResults ()
+		{
+			var club = new OWKClub (null);
+			var manager = SportManagerFactory.Create (club);
+			var results = manager.RetrieveResultsAsync (club).Result;
+			Assert.True (results != null && results.Count > 0);
+		}
 	}
 }
 
