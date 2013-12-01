@@ -44,30 +44,50 @@ namespace Mobowski.Core.Sports
 		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club)
 		{
 			return Task.Run (() => {
-				var teams = new List<Match> ();
+				var matches = new List<Match> ();
 
 				using (var client = new WebClient ()) {
 					var jsonString = client.DownloadString (_matchesUrl);
-					var json = JToken.Parse (jsonString);
+					var json = (JObject)JToken.Parse (jsonString);
 					var parser = new OWKMatchParser ();
+
+					var keys = json.Properties ().Select (p => p.Name).ToList ();
+					foreach (var key in keys) {
+						var matchesJson = json [key] ["items"];
+
+						foreach (var matchJson in matchesJson) {
+							var match = parser.Parse (matchJson);
+							matches.Add (match);
+						}
+					}
 				}
 
-				return teams;
+				return matches;
 			});
 		}
 
 		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team)
 		{
 			return Task.Run (() => {
-				var teams = new List<Match> ();
+				var matches = new List<Match> ();
 
 				using (var client = new WebClient ()) {
 					var jsonString = client.DownloadString (_matchesUrl);
-					var json = JToken.Parse (jsonString);
+					var json = (JObject)JToken.Parse (jsonString);
 					var parser = new OWKMatchParser ();
+
+					var keys = json.Properties ().Select (p => p.Name).ToList ();
+					foreach (var key in keys) {
+						var matchesJson = json [key] ["items"];
+
+						foreach (var matchJson in matchesJson) {
+							var match = parser.Parse (matchJson);
+							matches.Add (match);
+						}
+					}
 				}
 
-				return teams;
+				return matches;
 			});
 		}
 
