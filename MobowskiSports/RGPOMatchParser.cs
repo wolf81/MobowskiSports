@@ -46,7 +46,7 @@ namespace Mobowski.Core.Sports
 					}
 				}				
 			} catch (Exception ex) {
-				throw ex;	
+				throw new Exception ("failed to parse RGPO match", ex);		
 			}
 
 			return match;

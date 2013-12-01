@@ -28,7 +28,7 @@ namespace Mobowski.Core.Sports
 					result.GuestTeamScore = Convert.ToInt32 (testNode.InnerText);
 				}
 			} catch (Exception ex) {
-				throw ex;				
+				throw new Exception ("failed to parse RGPO result", ex);		
 			}
 
 			return result;

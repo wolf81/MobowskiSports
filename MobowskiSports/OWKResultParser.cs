@@ -9,7 +9,15 @@ namespace Mobowski.Core.Sports
 
 		public Result Parse (object data)
 		{
-			throw new NotImplementedException ();
+			var result = new Result ();
+
+			try {
+				
+			} catch (Exception ex) {
+				throw new Exception ("failed to parse OWK result", ex);
+			}
+
+			return result;
 		}
 
 		#endregion

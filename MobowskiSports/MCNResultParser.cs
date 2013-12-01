@@ -32,7 +32,7 @@ namespace Mobowski.Core.Sports
 					result.GuestTeamScore = Convert.ToInt32 (childNode.Attributes ["tegen"].InnerText);
 				}
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse MCN result for club", ex);		
 			}
 
 			return result;
@@ -75,7 +75,7 @@ namespace Mobowski.Core.Sports
 					throw new Exception ("failed to parse score from string: " + text);
 				}
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse MCN result for team", ex);		
 			}
 
 			return result;

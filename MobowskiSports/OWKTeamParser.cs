@@ -14,11 +14,17 @@ namespace Mobowski.Core.Sports
 
 		public Team Parse (object data)
 		{
-			var json = (JObject)data;
-
 			var team = new Team ();
-			team.Identifier = (int)json ["team_id"];
-			team.Name = (string)json ["team_name"];
+
+			try {
+				var json = (JObject)data;
+
+				team.Identifier = (int)json ["team_id"];
+				team.Name = (string)json ["team_name"];
+			} catch (Exception ex) {
+				throw new Exception ("failed to parse OWK team", ex);
+			}
+
 			return team;
 		}
 

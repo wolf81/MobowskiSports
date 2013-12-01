@@ -27,7 +27,7 @@ namespace Mobowski.Core.Sports
 				standing.GoalsAgainst = Convert.ToInt32 (node.SelectSingleNode ("./td[@class='against']").InnerText);
 				standing.PointsDeduced = Convert.ToInt32 (node.SelectSingleNode ("./td[@class='penaltypoints']").InnerText);
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse MCN standing", ex);		
 			}
 
 			return standing;

@@ -34,17 +34,23 @@ namespace Mobowski.Core.Sports
 
 		public Match Parse (object data)
 		{
-			var json = (JObject)data;
-
 			var match = new Match ();
-			match.Referee = (string)json ["match_officials"];
-			match.Field = (string)json ["field"];
-			match.HostTeam = (string)json ["home_team_name"];
-			match.GuestTeam = (string)json ["away_team_name"];
-			match.OtherInfo = (string)json ["facility_name"];
 
-			var dateString = String.Format ("{0} {1}", json ["date"], json ["time"]);
-			match.TimeStart = dateString.ToDate ("yyyy-MM-dd HH:mm");			          
+			try {
+				var json = (JObject)data;
+
+				match.Referee = (string)json ["match_officials"];
+				match.Field = (string)json ["field"];
+				match.HostTeam = (string)json ["home_team_name"];
+				match.GuestTeam = (string)json ["away_team_name"];
+				match.OtherInfo = (string)json ["facility_name"];
+
+				var dateString = String.Format ("{0} {1}", json ["date"], json ["time"]);
+				match.TimeStart = dateString.ToDate ("yyyy-MM-dd HH:mm");			          
+
+			} catch (Exception ex) {
+				throw new Exception ("failed to parse OWK match", ex);				
+			}
 
 			return match;
 		}

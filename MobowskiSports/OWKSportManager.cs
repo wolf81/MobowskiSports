@@ -68,6 +68,8 @@ namespace Mobowski.Core.Sports
 
 		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team)
 		{
+			// TODO: remember to filter on team here ...
+
 			return Task.Run (() => {
 				var matches = new List<Match> ();
 

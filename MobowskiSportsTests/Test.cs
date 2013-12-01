@@ -93,6 +93,15 @@ namespace MobowskiSportsTests
 			var matches = manager.RetrieveMatchesAsync (club).Result;
 			Assert.True (matches != null && matches.Count > 0);
 		}
+
+		public void TestOWKStandings ()
+		{
+			var club = new OWKClub (null);
+			var manager = SportManagerFactory.Create (club);
+			var team = GetMCNTeam ();
+			var standings = manager.RetrieveStandingsAsync (club, team).Result;
+			Assert.True (standings != null && standings.Count > 0);
+		}
 	}
 }
 

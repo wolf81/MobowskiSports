@@ -25,7 +25,7 @@ namespace Mobowski.Core.Sports
 				standing.GoalsAgainst = Convert.ToInt32 (node.SelectSingleNode ("TG").InnerText);
 				standing.PointsDeduced = Convert.ToInt32 (node.SelectSingleNode ("PM").InnerText);	
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse RGPO standing", ex);		
 			}
 
 			return standing;

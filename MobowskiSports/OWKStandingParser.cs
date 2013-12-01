@@ -20,7 +20,7 @@ namespace Mobowski.Core.Sports
 				JToken json = (JToken)data;
 				standing.Team = (string)json.SelectToken ("team_name");
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse OWK standing", ex);
 			}
 
 			return standing;

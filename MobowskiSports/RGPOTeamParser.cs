@@ -17,7 +17,7 @@ namespace Mobowski.Core.Sports
 				team.Name = (string)node.SelectSingleNode ("naam").InnerText;
 				team.Identifier = Convert.ToInt32 (node.SelectSingleNode ("id").InnerText);
 			} catch (Exception ex) {
-				throw ex;
+				throw new Exception ("failed to parse RGPO team", ex);		
 			}
 
 			return team;

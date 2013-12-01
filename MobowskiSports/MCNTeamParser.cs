@@ -17,7 +17,7 @@ namespace Mobowski.Core.Sports
 				team.Name = (string)node.SelectSingleNode ("naam").InnerText;
 				team.Identifier = Convert.ToInt32 (node.Attributes ["id"].InnerText);
 			} catch (Exception ex) {
-				throw ex;				
+				throw new Exception ("failed to parse MCN team", ex);		
 			}
 
 			return team;
