@@ -1,13 +1,17 @@
-using NUnit.Framework;
 using System;
+using NUnit.Framework;
 using System.Collections.Generic;
 using Mobowski.Core.Sports;
 
-namespace Mobowski.Core.Sports
+namespace MobowskiSportsTests
 {
 	[TestFixture ()]
 	public class Test
 	{
+		public Test ()
+		{
+		}
+
 		private MCNClub GetMCNClub ()
 		{
 
