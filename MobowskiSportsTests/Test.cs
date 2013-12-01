@@ -94,6 +94,7 @@ namespace MobowskiSportsTests
 			Assert.True (matches != null && matches.Count > 0);
 		}
 
+		[Test ()]
 		public void TestOWKStandings ()
 		{
 			var club = new OWKClub (null);

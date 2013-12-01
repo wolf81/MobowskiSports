@@ -103,17 +103,11 @@ namespace Mobowski.Core.Sports
 					var json = (JArray)JToken.Parse (jsonString);
 					var parser = new OWKStandingParser ();
 
-					// filer op team en haal eerste poule binnen: t_id = team.Identifier
+					var standingsJson = json != null && json.Count > 0 ? json [0] : null;
 
-					foreach (var item in json) {
-						var lines = item.SelectToken ("lines");
-
-						// haal eerste hieruit            
-						foreach (var line in lines) {
-							var standing = parser.Parse (line);
-							standings.Add (standing);
-							break;
-						}
+					foreach (var standingJson in standingsJson["lines"]) {
+						var standing = parser.Parse (standingJson);
+						standings.Add (standing);
 					}
 				}
 
