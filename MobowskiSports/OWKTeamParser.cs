@@ -14,7 +14,12 @@ namespace Mobowski.Core.Sports
 
 		public Team Parse (object data)
 		{
-			throw new NotImplementedException ();
+			var json = (JObject)data;
+
+			var team = new Team ();
+			team.Identifier = (int)json ["team_id"];
+			team.Name = (string)json ["team_name"];
+			return team;
 		}
 
 		#endregion

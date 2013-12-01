@@ -14,10 +14,17 @@ namespace MobowskiSportsTests
 
 		private MCNClub GetMCNClub ()
 		{
-
 			var parameters = new Dictionary<string, object> ();
 			parameters.Add ("Identifier", "BBHW92L");
 			return new MCNClub (parameters);
+		}
+
+		private Team GetMCNTeam ()
+		{
+			var club = GetMCNClub ();
+			var manager = SportManagerFactory.Create (club);
+			var teams = manager.RetrieveTeamsAsync (club).Result;
+			return (teams != null && teams.Count > 0) ? teams [0] : null;
 		}
 
 		[Test ()]
@@ -64,7 +71,18 @@ namespace MobowskiSportsTests
 		{
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
-			var standings = manager.RetrieveStandingsAsync (club, null);
+			var team = GetMCNTeam ();
+			var standings = manager.RetrieveStandingsAsync (club, team).Result;
+			Assert.True (standings != null && standings.Count > 0);
+		}
+
+		[Test ()] 
+		public void TestOWKTeams ()
+		{
+			var club = new OWKClub (null);
+			var manager = SportManagerFactory.Create (club);
+			var teams = manager.RetrieveTeamsAsync (club).Result;
+			Assert.True (teams.Count > 0);
 		}
 	}
 }

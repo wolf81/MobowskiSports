@@ -21,7 +21,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var teams = new List<Team> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var url = _teamUrl + mcnClub.Identifier;
 					var doc = client.LoadXml (url);
@@ -43,7 +43,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var matches = new List<Match> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var url = _matchUrl + mcnClub.Identifier;
 					var doc = client.LoadXml (url);
@@ -65,7 +65,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var matches = new List<Match> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var url = _matchUrl + mcnClub.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
 					var doc = client.LoadXml (url);
@@ -87,10 +87,11 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var standings = new List<Standing> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var encTeam = HttpUtility.UrlEncode (team.Name);
 					var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, mcnClub.Identifier, encTeam);
+					Console.WriteLine (url);
 					var doc = client.LoadXml (url);
 
 					var parser = new MCNStandingParser ();
@@ -110,7 +111,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var results = new List<Result> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var url = _resultClubUrl + mcnClub.Identifier;
 					var doc = client.LoadXml (url);
@@ -132,7 +133,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var results = new List<Result> ();
 
-				using (var client = new WebClient()) {
+				using (var client = new WebClient ()) {
 					var mcnClub = (MCNClub)club;
 					var encTeam = HttpUtility.UrlEncode (team.Name);
 					var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, mcnClub.Identifier, encTeam);

@@ -3,12 +3,16 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Mobowski.Core.Sports
 {
 	public class OWKSportManager : SportManagerBase
 	{
-		private const string _baseUrl = "http://mobowski.zapto.org/temp/onsweb.txt";
+		private const string _teamsUrl = "http://localhost:8000/teams.json";
+		private const string _matchesUrl = "http://localhost:8000/matches.json";
+		private const string _standingsUrl = "http://localhost:8000/standings.json";
+		private const string _resultsUrl = "http://localhost:8000/results.json";
 
 		#region implemented abstract members of SportManagerBase
 
@@ -17,13 +21,20 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var teams = new List<Team> ();
 
-				using (var client = new WebClient()) {
-					var owClub = (OWKClub)club;
-					var url = _baseUrl;
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_teamsUrl);
+					var json = (JObject)JToken.Parse (jsonString);
+					var parser = new OWKTeamParser ();
 
+					var keys = json.Properties ().Select (p => p.Name).ToList ();
+					foreach (var key in keys) {
+						var teamsJson = (JArray)json [key] ["v"];
 
-
-
+						foreach (var teamJson in teamsJson) {
+							var team = parser.Parse (teamJson);
+							teams.Add (team);
+						}
+					}
 				}
 
 				return teams;
@@ -32,12 +43,32 @@ namespace Mobowski.Core.Sports
 
 		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club)
 		{
-			throw new NotImplementedException ();
+			return Task.Run (() => {
+				var teams = new List<Match> ();
+
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_matchesUrl);
+					var json = JToken.Parse (jsonString);
+					var parser = new OWKMatchParser ();
+				}
+
+				return teams;
+			});
 		}
 
 		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team)
 		{
-			throw new NotImplementedException ();
+			return Task.Run (() => {
+				var teams = new List<Match> ();
+
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_matchesUrl);
+					var json = JToken.Parse (jsonString);
+					var parser = new OWKMatchParser ();
+				}
+
+				return teams;
+			});
 		}
 
 		public override Task<List<Standing>> RetrieveStandingsAsync (ClubBase club, Team team)
@@ -45,11 +76,8 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				var standings = new List<Standing> ();
 
-				using (var client = new WebClient()) {
-					client.Headers.Add (HttpRequestHeader.ContentType, "application/x-www-form-urlencoded");
-
-					var url = _baseUrl;
-					var jsonString = client.DownloadString (url);
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_standingsUrl);
 					var json = (JArray)JToken.Parse (jsonString);
 					var parser = new OWKStandingParser ();
 
@@ -73,12 +101,32 @@ namespace Mobowski.Core.Sports
 
 		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club)
 		{
-			throw new NotImplementedException ();
+			return Task.Run (() => {
+				var teams = new List<Result> ();
+
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_resultsUrl);
+					var json = JToken.Parse (jsonString);
+					var parser = new OWKResultParser ();
+				}
+
+				return teams;
+			});
 		}
 
 		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club, Team team)
 		{
-			throw new NotImplementedException ();
+			return Task.Run (() => {
+				var teams = new List<Result> ();
+
+				using (var client = new WebClient ()) {
+					var jsonString = client.DownloadString (_resultsUrl);
+					var json = JToken.Parse (jsonString);
+					var parser = new OWKResultParser ();
+				}
+
+				return teams;
+			});
 		}
 
 		#endregion

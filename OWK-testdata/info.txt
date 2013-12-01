@@ -1,5 +1,10 @@
 The data below is used to test parsing for OWK. The results of every type 
-of request are stored in json files. 
+of request are stored in json files. On Mac OS X a test webserver can be 
+setup for a local directory using the following command:
+
+	python -m SimpleHTTPServer 8000
+
+==========================================================================
 
 $data = array(
   'file' => 'json',	//output type, choose between json and xml
@@ -11,8 +16,6 @@ $data = array(
 );
 
 $url = 'http://www.knkv.nl/kcp/04c341d57948c2e3/' .$data['file'] . '/';
-
-==========================================================================
 
 ==========================================================================
 http://php.mobowski.com/get_data.php?f=get_data&t=teams

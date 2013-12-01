@@ -11,7 +11,6 @@ namespace Mobowski.Core.Sports
 		public Standing Parse (object data)
 		{
 			var standing = new Standing ();
-
 			var node = (XmlNode)data;
 
 			try {
