@@ -45,7 +45,7 @@ namespace Mobowski.Core.Sports
 			return Task.Run (() => {
 				RGPOClub club = null;
 
-				using (var client = new CookieAwareWebClient()) {
+				using (var client = new CookieAwareWebClient ()) {
 					var response = GetChallengeResponse (client);
 
 					if (response != null) {
@@ -74,139 +74,127 @@ namespace Mobowski.Core.Sports
 
 		#region implemented abstract members of SportManagerBase
 
-		public override Task<List<Team>> RetrieveTeamsAsync (ClubBase club)
+		public override List<Team> RetrieveTeams (ClubBase club)
 		{
-			return Task.Run (() => {
-				var teams = new List<Team> ();
+			var teams = new List<Team> ();
 
-				using (var client = new CookieAwareWebClient()) {
-					var response = GetChallengeResponse (client);
+			using (var client = new CookieAwareWebClient ()) {
+				var response = GetChallengeResponse (client);
 
-					if (response != null) {
-						var rgpoClub = (RGPOClub)club;
-						var url = String.Format ("{0}&vereniging_id={1}&response={2}", _teamUrl, rgpoClub.Identifier, response);
-						var doc = client.LoadXml (url);
+				if (response != null) {
+					var rgpoClub = (RGPOClub)club;
+					var url = String.Format ("{0}&vereniging_id={1}&response={2}", _teamUrl, rgpoClub.Identifier, response);
+					var doc = client.LoadXml (url);
 
-						var parser = new RGPOTeamParser ();
-						var nodes = doc.SelectNodes ("//team");
-						foreach (var node in nodes) {
-							var team = parser.Parse (node);
-							teams.Add (team);
+					var parser = new RGPOTeamParser ();
+					var nodes = doc.SelectNodes ("//team");
+					foreach (var node in nodes) {
+						var team = parser.Parse (node);
+						teams.Add (team);
+					}
+				}
+			}
+
+			return teams;
+		}
+
+		public override List<Match> RetrieveMatches (ClubBase club)
+		{
+			var matches = new List<Match> ();
+
+			using (var client = new CookieAwareWebClient ()) {
+				var response = GetChallengeResponse (client);
+
+				if (response != null) {
+					var rgpoClub = (RGPOClub)club;
+					var url = String.Format ("{0}&vereniging_id={1}&response={2}", _matchUrl, rgpoClub.Identifier, response);
+					var doc = client.LoadXml (url);
+
+					var parser = new RGPOMatchParser ();
+					var nodes = doc.SelectNodes ("//wedstrijd");
+					foreach (var node in nodes) {
+						var match = parser.Parse (node);
+						matches.Add (match);
+					}
+				}
+			}
+
+			return matches;
+		}
+
+		public override List<Match> RetrieveMatches (ClubBase club, Team team)
+		{
+			var matches = RetrieveMatches (club);
+
+			// remove all matches that are not played by the chosen team ...
+			var predicate = new Predicate<Match> ((Match match) => {
+				var isHostTeam = match.HostTeam.Equals (team.Name);
+				var isGuestTeam = match.GuestTeam.Equals (team.Name);
+				return (!isHostTeam && !isGuestTeam);
+			});
+			matches.RemoveAll (predicate);
+
+			return matches;
+		}
+
+		public override List<Standing> RetrieveStandings (ClubBase club, Team team)
+		{
+			var standings = new List<Standing> ();
+
+			using (var client = new CookieAwareWebClient ()) {
+				var response = GetChallengeResponse (client);
+
+				if (response != null) {
+					var rgpoClub = (RGPOClub)club;
+					var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
+					var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
+					var doc = client.LoadXml (url);
+
+					var parser = new RGPOStandingParser ();
+					var nodes = doc.SelectNodes ("//ranglijst/ranglijstitem");
+					foreach (var node in nodes) {
+						var standing = parser.Parse (node);
+						standings.Add (standing);
+					}
+				}
+			}
+
+			return standings;
+		}
+
+		public override List<Result> RetrieveResults (ClubBase club)
+		{
+			// RGPO has no call to retrieve results for a club, so we return an empty list.
+			return new List<Result> (); 
+		}
+
+		public override List<Result> RetrieveResults (ClubBase club, Team team)
+		{
+			var results = new List<Result> ();
+
+			using (var client = new CookieAwareWebClient ()) {
+				var response = GetChallengeResponse (client);
+
+				if (response != null) {
+					var rgpoClub = (RGPOClub)club;
+					var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
+					var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
+					var doc = client.LoadXml (url);
+
+					var parser = new RGPOResultParser ();
+					var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
+					foreach (var node in nodes) {
+						// only parse results from the past
+
+						var result = parser.Parse (node);
+						if (result.GuestTeamScore != null && result.HomeTeamScore != null) {
+							results.Add (result);
 						}
 					}
 				}
+			}
 
-				return teams;
-			});
-		}
-
-		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club)
-		{
-			return Task.Run (() => {
-				var matches = new List<Match> ();
-
-				using (var client = new CookieAwareWebClient()) {
-					var response = GetChallengeResponse (client);
-
-					if (response != null) {
-						var rgpoClub = (RGPOClub)club;
-						var url = String.Format ("{0}&vereniging_id={1}&response={2}", _matchUrl, rgpoClub.Identifier, response);
-						var doc = client.LoadXml (url);
-
-						var parser = new RGPOMatchParser ();
-						var nodes = doc.SelectNodes ("//wedstrijd");
-						foreach (var node in nodes) {
-							var match = parser.Parse (node);
-							matches.Add (match);
-						}
-					}
-				}
-
-				return matches;
-			});
-		}
-
-		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team)
-		{
-			return RetrieveMatchesAsync (club).ContinueWith ((t) => {
-				var matches = (List<Match>)t.Result;
-
-				// remove all matches that are not played by the chosen team ...
-				var predicate = new Predicate<Match> ((Match match) => {
-					var isHostTeam = match.HostTeam.Equals (team.Name);
-					var isGuestTeam = match.GuestTeam.Equals (team.Name);
-					return (!isHostTeam && !isGuestTeam);
-				});
-				matches.RemoveAll (predicate);
-
-				return matches;
-			});
-		}
-
-		public override Task<List<Standing>> RetrieveStandingsAsync (ClubBase club, Team team)
-		{
-			return Task.Run (() => {
-				var standings = new List<Standing> ();
-
-				using (var client = new CookieAwareWebClient()) {
-					var response = GetChallengeResponse (client);
-
-					if (response != null) {
-						var rgpoClub = (RGPOClub)club;
-						var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
-						var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
-						var doc = client.LoadXml (url);
-
-						var parser = new RGPOStandingParser ();
-						var nodes = doc.SelectNodes ("//ranglijst/ranglijstitem");
-						foreach (var node in nodes) {
-							var standing = parser.Parse (node);
-							standings.Add (standing);
-						}
-					}
-				}
-
-				return standings;
-			});
-		}
-
-		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club)
-		{
-			return Task.Run (() => {
-				// RGPO has no call to retrieve results for a club, so we return an empty list.
-				return new List<Result> (); 
-			});
-		}
-
-		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club, Team team)
-		{
-			return Task.Run (() => {
-				var results = new List<Result> ();
-
-				using (var client = new CookieAwareWebClient()) {
-					var response = GetChallengeResponse (client);
-
-					if (response != null) {
-						var rgpoClub = (RGPOClub)club;
-						var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
-						var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
-						var doc = client.LoadXml (url);
-
-						var parser = new RGPOResultParser ();
-						var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
-						foreach (var node in nodes) {
-							// only parse results from the past
-
-							var result = parser.Parse (node);
-							if (result.GuestTeamScore != null && result.HomeTeamScore != null) {
-								results.Add (result);
-							}
-						}
-					}
-				}
-
-				return results;
-			});
+			return results;
 		}
 
 		#endregion

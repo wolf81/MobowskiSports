@@ -16,139 +16,126 @@ namespace Mobowski.Core.Sports
 
 		#region implemented abstract members of SportManagerBase
 
-		public override Task<List<Team>> RetrieveTeamsAsync (ClubBase club)
+		public override List<Team> RetrieveTeams (ClubBase club)
 		{
-			return Task.Run (() => {
-				var teams = new List<Team> ();
+			var teams = new List<Team> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var url = _teamUrl + mcnClub.Identifier;
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var url = _teamUrl + mcnClub.Identifier;
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNTeamParser ();
-					var nodes = doc.SelectNodes ("//team");
-					foreach (var node in nodes) {
-						var team = parser.Parse (node);
-						teams.Add (team);
-					}
+				var parser = new MCNTeamParser ();
+				var nodes = doc.SelectNodes ("//team");
+				foreach (var node in nodes) {
+					var team = parser.Parse (node);
+					teams.Add (team);
 				}
+			}
 
-				return teams;
-			});
+			return teams;
 		}
 
-		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club)
+		public override List<Match> RetrieveMatches (ClubBase club)
 		{
-			return Task.Run (() => {
-				var matches = new List<Match> ();
+			var matches = new List<Match> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var url = _matchUrl + mcnClub.Identifier;
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var url = _matchUrl + mcnClub.Identifier;
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNMatchParser ();
-					var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
-					foreach (var node in nodes) {
-						var match = parser.Parse (node);
-						matches.Add (match);
-					}
+				var parser = new MCNMatchParser ();
+				var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
+				foreach (var node in nodes) {
+					var match = parser.Parse (node);
+					matches.Add (match);
 				}
+			}
 
-				return matches;
-			});
+			return matches;
 		}
 
-		public override Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team)
+		public override List<Match> RetrieveMatches (ClubBase club, Team team)
 		{
-			return Task.Run (() => {
-				var matches = new List<Match> ();
+			var matches = new List<Match> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var url = _matchUrl + mcnClub.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var url = _matchUrl + mcnClub.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNMatchParser ();
-					var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
-					foreach (var node in nodes) {
-						var match = parser.Parse (node);
-						matches.Add (match);
-					}
+				var parser = new MCNMatchParser ();
+				var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
+				foreach (var node in nodes) {
+					var match = parser.Parse (node);
+					matches.Add (match);
 				}
+			}
 
-				return matches;
-			});
+			return matches;
 		}
 
-		public override Task<List<Standing>> RetrieveStandingsAsync (ClubBase club, Team team)
+		public override List<Standing> RetrieveStandings (ClubBase club, Team team)
 		{
-			return Task.Run (() => {
-				var standings = new List<Standing> ();
+			var standings = new List<Standing> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var encTeam = HttpUtility.UrlEncode (team.Name);
-					var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, mcnClub.Identifier, encTeam);
-					Console.WriteLine (url);
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var encTeam = HttpUtility.UrlEncode (team.Name);
+				var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, mcnClub.Identifier, encTeam);
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNStandingParser ();
-					var nodes = doc.SelectNodes ("//table/tbody/tr");
-					foreach (var node in nodes) {
-						var standing = parser.Parse (node);
-						standings.Add (standing);
-					}
+				var parser = new MCNStandingParser ();
+				var nodes = doc.SelectNodes ("//table/tbody/tr");
+				foreach (var node in nodes) {
+					var standing = parser.Parse (node);
+					standings.Add (standing);
 				}
+			}
 
-				return standings;
-			});
+			return standings;
 		}
 
-		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club)
+		public override List<Result> RetrieveResults (ClubBase club)
 		{
-			return Task.Run (() => {
-				var results = new List<Result> ();
+			var results = new List<Result> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var url = _resultClubUrl + mcnClub.Identifier;
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var url = _resultClubUrl + mcnClub.Identifier;
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNResultParser (MCNResultParser.ParseMode.Club);
-					var nodes = doc.SelectNodes ("//wedstrijd");
-					foreach (var node in nodes) {
-						var result = parser.Parse (node);
-						results.Add (result);
-					}
+				var parser = new MCNResultParser (MCNResultParser.ParseMode.Club);
+				var nodes = doc.SelectNodes ("//wedstrijd");
+				foreach (var node in nodes) {
+					var result = parser.Parse (node);
+					results.Add (result);
 				}
+			}
 
-				return results;
-			});
+			return results;
 		}
 
-		public override Task<List<Result>> RetrieveResultsAsync (ClubBase club, Team team)
+		public override List<Result> RetrieveResults (ClubBase club, Team team)
 		{
-			return Task.Run (() => {
-				var results = new List<Result> ();
+			var results = new List<Result> ();
 
-				using (var client = new WebClient ()) {
-					var mcnClub = (MCNClub)club;
-					var encTeam = HttpUtility.UrlEncode (team.Name);
-					var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, mcnClub.Identifier, encTeam);
-					var doc = client.LoadXml (url);
+			using (var client = new WebClient ()) {
+				var mcnClub = (MCNClub)club;
+				var encTeam = HttpUtility.UrlEncode (team.Name);
+				var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, mcnClub.Identifier, encTeam);
+				var doc = client.LoadXml (url);
 
-					var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
-					var nodes = doc.SelectNodes ("//table/tbody/tr");
-					foreach (var node in nodes) {
-						var result = parser.Parse (node);
-						results.Add (result);
-					}
+				var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
+				var nodes = doc.SelectNodes ("//table/tbody/tr");
+				foreach (var node in nodes) {
+					var result = parser.Parse (node);
+					results.Add (result);
 				}
+			}
 
-				return results;
-			});
+			return results;
 		}
 
 		#endregion

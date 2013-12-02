@@ -22,17 +22,17 @@ namespace Mobowski.Core.Sports
 	/// </summary>
 	public abstract class SportManagerBase
 	{
-		public abstract Task<List<Team>> RetrieveTeamsAsync (ClubBase club);
+		public abstract List<Team> RetrieveTeams (ClubBase club);
 
-		public abstract Task<List<Match>> RetrieveMatchesAsync (ClubBase club);
+		public abstract List<Match> RetrieveMatches (ClubBase club);
 
-		public abstract Task<List<Match>> RetrieveMatchesAsync (ClubBase club, Team team);
+		public abstract List<Match> RetrieveMatches (ClubBase club, Team team);
 
-		public abstract Task<List<Standing>> RetrieveStandingsAsync (ClubBase club, Team team);
+		public abstract List<Standing> RetrieveStandings (ClubBase club, Team team);
 
-		public abstract Task<List<Result>> RetrieveResultsAsync (ClubBase club);
+		public abstract List<Result> RetrieveResults (ClubBase club);
 
-		public abstract Task<List<Result>> RetrieveResultsAsync (ClubBase club, Team team);
+		public abstract List<Result> RetrieveResults (ClubBase club, Team team);
 	}
 
 	/// <summary>
