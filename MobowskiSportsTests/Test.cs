@@ -31,7 +31,7 @@ namespace MobowskiSportsTests
 		public void TestRGPOClub ()
 		{
 			var club = RGPOClub.RetrieveClub ("www.ajax.nl").Result;
-			Assert.True (club != null && club.Identifier == 62);
+			Assert.IsTrue (club != null && club.Identifier == 62);
 		}
 
 		[Test ()]
@@ -40,7 +40,7 @@ namespace MobowskiSportsTests
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var teams = manager.RetrieveTeams (club);
-			Assert.True (teams != null && teams.Count > 0);
+			Assert.IsTrue (teams != null && teams.Count > 0);
 		}
 
 		[Test ()]
@@ -49,7 +49,7 @@ namespace MobowskiSportsTests
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var matches = manager.RetrieveMatches (club);
-			Assert.True (matches != null && matches.Count > 0);
+			Assert.IsTrue (matches != null && matches.Count > 0);
 		}
 
 		[Test ()]
@@ -63,7 +63,7 @@ namespace MobowskiSportsTests
 			if (teams != null && teams.Count > 0) {
 				team = teams [0];
 			}
-			Assert.True (team != null);
+			Assert.IsTrue (team != null);
 		}
 
 		[Test ()]
@@ -73,7 +73,7 @@ namespace MobowskiSportsTests
 			var manager = SportManagerFactory.Create (club);
 			var team = GetMCNTeam ();
 			var standings = manager.RetrieveStandings (club, team);
-			Assert.True (standings != null && standings.Count > 0);
+			Assert.IsTrue (standings != null && standings.Count > 0);
 		}
 
 		[Test ()] 
@@ -82,7 +82,7 @@ namespace MobowskiSportsTests
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var teams = manager.RetrieveTeams (club);
-			Assert.True (teams != null && teams.Count > 0);
+			Assert.IsTrue (teams != null && teams.Count > 0);
 		}
 
 		[Test ()]
@@ -91,7 +91,7 @@ namespace MobowskiSportsTests
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var matches = manager.RetrieveMatches (club);
-			Assert.True (matches != null && matches.Count > 0);
+			Assert.IsTrue (matches != null && matches.Count > 0);
 		}
 
 		[Test ()]
@@ -101,7 +101,7 @@ namespace MobowskiSportsTests
 			var manager = SportManagerFactory.Create (club);
 			var team = GetMCNTeam ();
 			var standings = manager.RetrieveStandings (club, team);
-			Assert.True (standings != null && standings.Count > 0);
+			Assert.IsTrue (standings != null && standings.Count > 0);
 		}
 
 		[Test ()]
@@ -110,7 +110,7 @@ namespace MobowskiSportsTests
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var results = manager.RetrieveResults (club);
-			Assert.True (results != null && results.Count > 0);
+			Assert.IsTrue (results != null && results.Count > 0);
 		}
 	}
 }

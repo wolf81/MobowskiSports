@@ -1,13 +1,28 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MobowskiSports/OWKStandingParser.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MobowskiSportsTests/Test.cs">
     <Files>
-      <File FileName="MobowskiSports/Models/Club.cs" Line="1" Column="1" />
-      <File FileName="MobowskiSports/MCNResultParser.cs" Line="1" Column="1" />
-      <File FileName="MobowskiSports/OWKSportManager.cs" Line="1" Column="1" />
-      <File FileName="MobowskiSports/OWKTeamParser.cs" Line="1" Column="1" />
-      <File FileName="MobowskiSports/OWKStandingParser.cs" Line="15" Column="9" />
+      <File FileName="MobowskiSportsTests/Test.cs" Line="114" Column="1" />
+      <File FileName="MobowskiSports/OWKResultParser.cs" Line="41" Column="54" />
+      <File FileName="MobowskiSports/MCNSportManager.cs" Line="100" Column="62" />
+      <File FileName="MobowskiSports/RGPOSportManager.cs" Line="195" Column="5" />
+      <File FileName="MobowskiSports/SportManager.cs" Line="20" Column="15" />
+      <File FileName="MobowskiSports/MCNStandingParser.cs" Line="21" Column="2" />
+      <File FileName="MobowskiSports/OWKSportManager.cs" Line="15" Column="39" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="MobowskiSportsTests" expanded="True">
+            <Node name="MobowskiSportsTests" expanded="True">
+              <Node name="Test" expanded="True">
+                <Node name="TestOWKTeams" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
