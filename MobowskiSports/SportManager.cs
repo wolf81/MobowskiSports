@@ -22,10 +22,17 @@ namespace Mobowski.Core.Sports
 	/// </summary>
 	public abstract class SportManagerBase
 	{
+		public ClubBase Club { get; private set; }
+
+		public SportManagerBase (ClubBase club)
+		{
+			this.Club = club;
+		}
+
 		public Team RetrieveTeam (ClubBase club, int identifier)
 		{
 			Team selectedTeam = null;
-			var teams = RetrieveTeams (club);
+			var teams = RetrieveTeams ();
 			foreach (var team in teams) {
 				if (team.Identifier == identifier) {
 					selectedTeam = team;
@@ -34,17 +41,17 @@ namespace Mobowski.Core.Sports
 			return selectedTeam;
 		}
 
-		public abstract List<Team> RetrieveTeams (ClubBase club);
+		public abstract List<Team> RetrieveTeams ();
 
-		public abstract List<Match> RetrieveMatches (ClubBase club);
+		public abstract List<Match> RetrieveMatches ();
 
-		public abstract List<Match> RetrieveMatches (ClubBase club, Team team);
+		public abstract List<Match> RetrieveMatches (Team team);
 
-		public abstract List<Standing> RetrieveStandings (ClubBase club, Team team);
+		public abstract List<Standing> RetrieveStandings (Team team);
 
-		public abstract List<Result> RetrieveResults (ClubBase club);
+		public abstract List<Result> RetrieveResults ();
 
-		public abstract List<Result> RetrieveResults (ClubBase club, Team team);
+		public abstract List<Result> RetrieveResults (Team team);
 	}
 
 	/// <summary>
@@ -54,13 +61,15 @@ namespace Mobowski.Core.Sports
 	{
 		public static SportManagerBase Create (ClubBase club)
 		{
+			SportManagerBase sportManager = null;
+
 			switch (club.Provider) {
 			case SportDataProvider.RGPO:
-				return new RGPOSportManager ();
+				return new RGPOSportManager (club);
 			case SportDataProvider.MCN:
-				return new MCNSportManager ();
+				return new MCNSportManager (club);
 			case SportDataProvider.OWK:
-				return new OWKSportManager ();
+				return new OWKSportManager (club);
 			}
 
 			return null;

@@ -14,14 +14,18 @@ namespace Mobowski.Core.Sports
 		private const string _resultsTeamUrl = "http://mijnclub.nu/clubs/teams/embed/";
 		private const string _standingUrl = "http://mijnclub.nu/clubs/teams/embed/";
 
+		public MCNSportManager (ClubBase club) : base (club)
+		{
+		}
+
 		#region implemented abstract members of SportManagerBase
 
-		public override List<Team> RetrieveTeams (ClubBase club)
+		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var url = _teamUrl + mcnClub.Identifier;
 				var doc = client.LoadXml (url);
 
@@ -36,12 +40,12 @@ namespace Mobowski.Core.Sports
 			return teams;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club)
+		public override List<Match> RetrieveMatches ()
 		{
 			var matches = new List<Match> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var url = _matchUrl + mcnClub.Identifier;
 				var doc = client.LoadXml (url);
 
@@ -56,12 +60,12 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club, Team team)
+		public override List<Match> RetrieveMatches (Team team)
 		{
 			var matches = new List<Match> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var url = _matchUrl + mcnClub.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
 				var doc = client.LoadXml (url);
 
@@ -76,12 +80,12 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Standing> RetrieveStandings (ClubBase club, Team team)
+		public override List<Standing> RetrieveStandings (Team team)
 		{
 			var standings = new List<Standing> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var encTeam = HttpUtility.UrlEncode (team.Name);
 				var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, mcnClub.Identifier, encTeam);
 				var doc = client.LoadXml (url);
@@ -97,12 +101,12 @@ namespace Mobowski.Core.Sports
 			return standings;
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club)
+		public override List<Result> RetrieveResults ()
 		{
 			var results = new List<Result> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var url = _resultClubUrl + mcnClub.Identifier;
 				var doc = client.LoadXml (url);
 
@@ -117,12 +121,12 @@ namespace Mobowski.Core.Sports
 			return results;
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club, Team team)
+		public override List<Result> RetrieveResults (Team team)
 		{
 			var results = new List<Result> ();
 
 			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)club;
+				var mcnClub = (MCNClub)Club;
 				var encTeam = HttpUtility.UrlEncode (team.Name);
 				var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, mcnClub.Identifier, encTeam);
 				var doc = client.LoadXml (url);

@@ -14,9 +14,13 @@ namespace Mobowski.Core.Sports
 		private const string _standingsUrl = "http://www.mobowski.com/temp/standings.txt";
 		private const string _resultsUrl = "http://www.mobowski.com/temp/results.txt";
 
+		public OWKSportManager (ClubBase club) : base (club)
+		{
+		}
+
 		#region implemented abstract members of SportManagerBase
 
-		public override List<Team> RetrieveTeams (ClubBase club)
+		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
 
@@ -39,7 +43,7 @@ namespace Mobowski.Core.Sports
 			return teams;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club)
+		public override List<Match> RetrieveMatches ()
 		{
 			var matches = new List<Match> ();
 
@@ -62,7 +66,7 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club, Team team)
+		public override List<Match> RetrieveMatches (Team team)
 		{
 			// TODO: remember to filter on team here ...
 
@@ -87,7 +91,7 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Standing> RetrieveStandings (ClubBase club, Team team)
+		public override List<Standing> RetrieveStandings (Team team)
 		{
 			// PLEASE NOTE: due to a limitation in the app we just parse the first standing here. Until we implement
 			//	poules, we just have to assume the first standing is the correct one.
@@ -110,7 +114,7 @@ namespace Mobowski.Core.Sports
 			return standings;
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club)
+		public override List<Result> RetrieveResults ()
 		{
 			var results = new List<Result> ();
 
@@ -133,7 +137,7 @@ namespace Mobowski.Core.Sports
 			return results;
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club, Team team)
+		public override List<Result> RetrieveResults (Team team)
 		{
 			var results = new List<Result> ();
 

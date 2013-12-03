@@ -18,6 +18,12 @@ namespace Mobowski.Core.Sports
 		// TODO: implement a way to retrieve club info, since mobowski currently doesn't send all required data
 		private const string _clubUrl = "http://www.wedstrijdprogramma.com/api.php?action=vereniging";
 
+		public RGPOSportManager (ClubBase club) : base (club)
+		{
+		}
+
+		#region implemented abstract members of SportManagerBase
+
 		/// <summary>
 		/// Gets the challenge response, this value is required to access other data from the RGPO 
 		/// webservice. Every request will always first get a challenge response, which is to be 
@@ -72,9 +78,7 @@ namespace Mobowski.Core.Sports
 			});
 		}
 
-		#region implemented abstract members of SportManagerBase
-
-		public override List<Team> RetrieveTeams (ClubBase club)
+		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
 
@@ -82,7 +86,7 @@ namespace Mobowski.Core.Sports
 				var response = GetChallengeResponse (client);
 
 				if (response != null) {
-					var rgpoClub = (RGPOClub)club;
+					var rgpoClub = (RGPOClub)Club;
 					var url = String.Format ("{0}&vereniging_id={1}&response={2}", _teamUrl, rgpoClub.Identifier, response);
 					var doc = client.LoadXml (url);
 
@@ -98,7 +102,7 @@ namespace Mobowski.Core.Sports
 			return teams;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club)
+		public override List<Match> RetrieveMatches ()
 		{
 			var matches = new List<Match> ();
 
@@ -106,7 +110,7 @@ namespace Mobowski.Core.Sports
 				var response = GetChallengeResponse (client);
 
 				if (response != null) {
-					var rgpoClub = (RGPOClub)club;
+					var rgpoClub = (RGPOClub)Club;
 					var url = String.Format ("{0}&vereniging_id={1}&response={2}", _matchUrl, rgpoClub.Identifier, response);
 					var doc = client.LoadXml (url);
 
@@ -122,9 +126,9 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Match> RetrieveMatches (ClubBase club, Team team)
+		public override List<Match> RetrieveMatches (Team team)
 		{
-			var matches = RetrieveMatches (club);
+			var matches = RetrieveMatches (team);
 
 			// remove all matches that are not played by the chosen team ...
 			var predicate = new Predicate<Match> ((Match match) => {
@@ -137,7 +141,7 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Standing> RetrieveStandings (ClubBase club, Team team)
+		public override List<Standing> RetrieveStandings (Team team)
 		{
 			var standings = new List<Standing> ();
 
@@ -145,7 +149,7 @@ namespace Mobowski.Core.Sports
 				var response = GetChallengeResponse (client);
 
 				if (response != null) {
-					var rgpoClub = (RGPOClub)club;
+					var rgpoClub = (RGPOClub)Club;
 					var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
 					var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
 					var doc = client.LoadXml (url);
@@ -162,13 +166,13 @@ namespace Mobowski.Core.Sports
 			return standings;
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club)
+		public override List<Result> RetrieveResults ()
 		{
 			// RGPO has no call to retrieve results for a club, so we return an empty list.
 			return new List<Result> (); 
 		}
 
-		public override List<Result> RetrieveResults (ClubBase club, Team team)
+		public override List<Result> RetrieveResults (Team team)
 		{
 			var results = new List<Result> ();
 
@@ -176,7 +180,7 @@ namespace Mobowski.Core.Sports
 				var response = GetChallengeResponse (client);
 
 				if (response != null) {
-					var rgpoClub = (RGPOClub)club;
+					var rgpoClub = (RGPOClub)Club;
 					var baseUrl = rgpoClub.HasKVNBSource ? _rankingsKnvbUrl : _rankingUrl;
 					var url = String.Format ("{0}&vereniging_id={1}&team_id={2}&response={3}", baseUrl, rgpoClub.Identifier, team.Identifier, response);
 					var doc = client.LoadXml (url);
