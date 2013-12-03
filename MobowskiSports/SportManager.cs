@@ -22,6 +22,18 @@ namespace Mobowski.Core.Sports
 	/// </summary>
 	public abstract class SportManagerBase
 	{
+		public Team RetrieveTeam (ClubBase club, int identifier)
+		{
+			Team selectedTeam = null;
+			var teams = RetrieveTeams (club);
+			foreach (var team in teams) {
+				if (team.Identifier == identifier) {
+					selectedTeam = team;
+				}
+			}
+			return selectedTeam;
+		}
+
 		public abstract List<Team> RetrieveTeams (ClubBase club);
 
 		public abstract List<Match> RetrieveMatches (ClubBase club);
