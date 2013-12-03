@@ -9,16 +9,10 @@ namespace Mobowski.Core.Sports
 {
 	public class OWKSportManager : SportManagerBase
 	{
-		//private const string _teamsUrl = "http://localhost:8000/teams.json";
-		//private const string _matchesUrl = "http://localhost:8000/matches.json";
-		//private const string _standingsUrl = "http://localhost:8000/standings.json";
-		//private const string _resultsUrl = "http://localhost:8000/results.json";
-
-    private const string _teamsUrl = "http://www.mobowski.com/temp/teams.txt";
-    private const string _matchesUrl = "http://www.mobowski.com/temp/matches.txt";
-    private const string _standingsUrl = "http://www.mobowski.com/temp/standings.txt";
-    private const string _resultsUrl = "http://www.mobowski.com/temp/results.txt";
-
+		private const string _teamsUrl = "http://localhost:8000/teams.json";
+		private const string _matchesUrl = "http://localhost:8000/matches.json";
+		private const string _standingsUrl = "http://localhost:8000/standings.json";
+		private const string _resultsUrl = "http://localhost:8000/results.json";
 
 		#region implemented abstract members of SportManagerBase
 
