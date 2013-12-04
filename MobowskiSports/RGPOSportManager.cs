@@ -15,7 +15,6 @@ namespace Mobowski.Core.Sports
 		private const string _matchUrl = "http://www.wedstrijdprogramma.com/api.php?action=wedstrijden";
 		private const string _rankingUrl = "http://www.wedstrijdprogramma.com/api.php?action=standen";
 		private const string _rankingsKnvbUrl = "http://www.wedstrijdprogramma.com/api.php?action=standen2";
-		// TODO: implement a way to retrieve club info, since mobowski currently doesn't send all required data
 		private const string _clubUrl = "http://www.wedstrijdprogramma.com/api.php?action=vereniging";
 
 		public RGPOSportManager (ClubBase club) : base (club)
@@ -71,7 +70,7 @@ namespace Mobowski.Core.Sports
 
 							club = new RGPOClub (parameters);
 						}
-					}
+					} // TODO: else throw exception ?
 				}
 
 				return club;

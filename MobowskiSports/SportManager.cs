@@ -29,13 +29,14 @@ namespace Mobowski.Core.Sports
 			this.Club = club;
 		}
 
-		public Team RetrieveTeam (ClubBase club, int identifier)
+		public Team RetrieveTeam (int identifier)
 		{
 			Team selectedTeam = null;
 			var teams = RetrieveTeams ();
 			foreach (var team in teams) {
 				if (team.Identifier == identifier) {
 					selectedTeam = team;
+					break;
 				}
 			}
 			return selectedTeam;
@@ -61,8 +62,6 @@ namespace Mobowski.Core.Sports
 	{
 		public static SportManagerBase Create (ClubBase club)
 		{
-			SportManagerBase sportManager = null;
-
 			switch (club.Provider) {
 			case SportDataProvider.RGPO:
 				return new RGPOSportManager (club);
