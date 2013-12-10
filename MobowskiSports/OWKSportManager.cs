@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Web;
+using ErrorLogging;
 
 namespace Mobowski.Core.Sports
 {
@@ -23,6 +24,8 @@ namespace Mobowski.Core.Sports
 
 			using (var client = new OWKWebClient (owkClub)) {
 				var jsonString = client.UploadString ("t=teams");
+        ErrorLog.WriteError("got json: " + jsonString);
+
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKTeamParser ();
 
@@ -120,7 +123,10 @@ namespace Mobowski.Core.Sports
 			var owkClub = (OWKClub)Club;
 
 			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=result"); 
+				var jsonString = client.UploadString ("t=result");
+
+        ErrorLog.WriteError("got json: " + jsonString);
+
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 

@@ -65,7 +65,15 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="OWKMatchParser.cs" />
     <Compile Include="OWKResultParser.cs" />
-    <Compile Include="OWKWebClient.cs" />
+    <Compile Include="OWKWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ErrorLogging\ErrorLogging.vbproj">
+      <Project>{ff8dd842-1ac3-49ca-ac75-a9bcb4ab96a5}</Project>
+      <Name>ErrorLogging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
