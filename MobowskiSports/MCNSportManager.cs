@@ -47,7 +47,11 @@ namespace Mobowski.Core.Sports
 			using (var client = new WebClient ()) {
 				var mcnClub = (MCNClub)Club;
 				var url = _matchUrl + mcnClub.Identifier;
-				var doc = client.LoadXml (url);
+
+        //throw new Exception("url = " + url);
+        var doc = client.LoadXml (url);
+
+        
 
 				var parser = new MCNMatchParser ();
 				var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
