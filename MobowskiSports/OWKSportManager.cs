@@ -10,27 +10,8 @@ namespace Mobowski.Core.Sports
 {
 	public class OWKSportManager : SportManagerBase
 	{
-    private const string _baseUrl = "http://www.knkv.nl/kcp/<uwcode>"; //club identifier
-
-
-
-
-
-    
-    
-    private const string _teamsUrl = "http://www.knkv.nl/kcp/04c341d57948c2e3/json/";
-    private const string _matchesUrl = "http://www.knkv.nl/kcp/04c341d57948c2e3/json/";
-    private const string _standingsUrl = "http://www.knkv.nl/kcp/04c341d57948c2e3/json/";
-    private const string _resultsUrl = "http://www.knkv.nl/kcp/04c341d57948c2e3/json/";
-
-
-
-
-    //private const string _teamsUrl = "http://www.mobowski.com/temp/teams.txt";
-    //private const string _matchesUrl = "http://www.mobowski.com/temp/matches.txt";
-    //private const string _standingsUrl = "http://www.mobowski.com/temp/standings.txt";
-    //private const string _resultsUrl = "http://www.mobowski.com/temp/results.txt";
-
+		private const string _baseUrl = "http://www.knkv.nl/kcp/";
+		private const string _postData = "file=json&f=get_data&full=0";
 
 		public OWKSportManager (ClubBase club) : base (club)
 		{
@@ -41,12 +22,10 @@ namespace Mobowski.Core.Sports
 		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
-      string data = "file=json&f=get_data&t=teams&full=0";
 
-			using (var client = new WebClient ()) {
-        client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-
-				var jsonString = client.UploadString (_baseUrl, data);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=teams", _postData);
+				var jsonString = client.UploadString (_baseUrl, postData);
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKTeamParser ();
 
@@ -66,15 +45,11 @@ namespace Mobowski.Core.Sports
 
 		public override List<Match> RetrieveMatches ()
 		{
-      var matches = new List<Match>();
+			var matches = new List<Match> ();
 
-			using (var client = new WebClient ()) {
-        var data = "file=json&f=get_data&t=result&full=0";
-        client.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-
-        var jsonString = client.UploadString(_matchesUrl, data);        
-        
-        //var jsonString = client.DownloadString (_matchesUrl);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=program", _postData);
+				var jsonString = client.UploadString (_baseUrl, postData);                
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -98,8 +73,9 @@ namespace Mobowski.Core.Sports
 
 			var matches = new List<Match> ();
 
-			using (var client = new WebClient ()) {
-				var jsonString = client.DownloadString (_matchesUrl);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=program&t_id={1}", _postData, team.Identifier);
+				var jsonString = client.UploadString (_baseUrl, postData); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -124,8 +100,9 @@ namespace Mobowski.Core.Sports
 
 			var standings = new List<Standing> ();
 
-			using (var client = new WebClient ()) {
-				var jsonString = client.DownloadString (_standingsUrl);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=standing&t_id={1}", _postData, team.Identifier);
+				var jsonString = client.UploadString (_baseUrl, postData); 
 				var json = (JArray)JToken.Parse (jsonString);
 				var parser = new OWKStandingParser ();
 
@@ -144,8 +121,9 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new WebClient ()) {
-				var jsonString = client.DownloadString (_resultsUrl);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=result", _postData);
+				var jsonString = client.UploadString (_baseUrl, postData); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 
@@ -167,8 +145,9 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new WebClient ()) {
-				var jsonString = client.DownloadString (_resultsUrl);
+			using (var client = new OWKWebClient ()) {
+				var postData = String.Format ("{0}&t=result&t_id={1}", _postData, team.Identifier);
+				var jsonString = client.UploadString (_baseUrl, postData); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 
