@@ -10,9 +10,6 @@ namespace Mobowski.Core.Sports
 {
 	public class OWKSportManager : SportManagerBase
 	{
-		private const string _baseUrl = "http://www.knkv.nl/kcp/";
-		private const string _postData = "file=json&f=get_data&full=0";
-
 		public OWKSportManager (ClubBase club) : base (club)
 		{
 		}
@@ -22,10 +19,10 @@ namespace Mobowski.Core.Sports
 		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=teams", _postData);
-				var jsonString = client.UploadString (_baseUrl, postData);
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=teams");
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKTeamParser ();
 
@@ -46,10 +43,10 @@ namespace Mobowski.Core.Sports
 		public override List<Match> RetrieveMatches ()
 		{
 			var matches = new List<Match> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=program", _postData);
-				var jsonString = client.UploadString (_baseUrl, postData);                
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=program");                
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -72,10 +69,10 @@ namespace Mobowski.Core.Sports
 			// TODO: remember to filter on team here ...
 
 			var matches = new List<Match> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=program&t_id={1}", _postData, team.Identifier);
-				var jsonString = client.UploadString (_baseUrl, postData); 
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=program&t_id=" + team.Identifier); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -99,10 +96,10 @@ namespace Mobowski.Core.Sports
 			//	poules, we just have to assume the first standing is the correct one.
 
 			var standings = new List<Standing> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=standing&t_id={1}", _postData, team.Identifier);
-				var jsonString = client.UploadString (_baseUrl, postData); 
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=standing&t_id=" + team.Identifier); 
 				var json = (JArray)JToken.Parse (jsonString);
 				var parser = new OWKStandingParser ();
 
@@ -120,10 +117,10 @@ namespace Mobowski.Core.Sports
 		public override List<Result> RetrieveResults ()
 		{
 			var results = new List<Result> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=result", _postData);
-				var jsonString = client.UploadString (_baseUrl, postData); 
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=result"); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 
@@ -144,10 +141,10 @@ namespace Mobowski.Core.Sports
 		public override List<Result> RetrieveResults (Team team)
 		{
 			var results = new List<Result> ();
+			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient ()) {
-				var postData = String.Format ("{0}&t=result&t_id={1}", _postData, team.Identifier);
-				var jsonString = client.UploadString (_baseUrl, postData); 
+			using (var client = new OWKWebClient (owkClub)) {
+				var jsonString = client.UploadString ("t=result&t_id=" + team.Identifier); 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 

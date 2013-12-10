@@ -52,7 +52,7 @@ namespace Mobowski.Core.Sports
 
 		public bool HasKVNBSource { get { return (bool)_parameters ["IsKNVBSource"]; } }
 
-		public RGPOClub (Dictionary<string,object> parameters) : base(parameters)
+		public RGPOClub (Dictionary<string,object> parameters) : base (parameters)
 		{
 		}
 
@@ -68,7 +68,7 @@ namespace Mobowski.Core.Sports
 
 		public string Identifier { get { return (string)_parameters ["Identifier"]; } }
 
-		public MCNClub (Dictionary<string,object> parameters) : base(parameters)
+		public MCNClub (Dictionary<string,object> parameters) : base (parameters)
 		{
 		}
 	}
@@ -77,9 +77,9 @@ namespace Mobowski.Core.Sports
 	{
 		internal override SportDataProvider Provider { get { return SportDataProvider.OWK; } }
 
-    public string Code { get { return (string)_parameters["Code"]; } }
+		public string Code { get { return (string)_parameters ["Code"]; } }
 
-		public OWKClub (Dictionary<string,object> parameters) : base(parameters)
+		public OWKClub (Dictionary<string,object> parameters) : base (parameters)
 		{
 		}
 	}
