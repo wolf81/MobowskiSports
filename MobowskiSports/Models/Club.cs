@@ -41,47 +41,5 @@ namespace Mobowski.Core.Sports
 			return sb.ToString ();
 		}
 	}
-
-	public class RGPOClub : ClubBase
-	{
-		internal override SportDataProvider Provider { get { return SportDataProvider.RGPO; } }
-
-		public int Identifier { get { return (int)_parameters ["Identifier"]; } }
-
-		public string Referer { get { return (string)_parameters ["Referer"]; } }
-
-		public bool HasKVNBSource { get { return (bool)_parameters ["IsKNVBSource"]; } }
-
-		public RGPOClub (Dictionary<string,object> parameters) : base (parameters)
-		{
-		}
-
-		public static async Task<RGPOClub> RetrieveClub (string referer)
-		{
-			return await RGPOSportManager.RetrieveClub (referer);
-		}
-	}
-
-	public class MCNClub : ClubBase
-	{
-		internal override SportDataProvider Provider { get { return SportDataProvider.MCN; } }
-
-		public string Identifier { get { return (string)_parameters ["Identifier"]; } }
-
-		public MCNClub (Dictionary<string,object> parameters) : base (parameters)
-		{
-		}
-	}
-
-	public class OWKClub : ClubBase
-	{
-		internal override SportDataProvider Provider { get { return SportDataProvider.OWK; } }
-
-		public string Code { get { return (string)_parameters ["Code"]; } }
-
-		public OWKClub (Dictionary<string,object> parameters) : base (parameters)
-		{
-		}
-	}
 }
 

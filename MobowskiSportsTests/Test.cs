@@ -30,7 +30,7 @@ namespace MobowskiSportsTests
 		[Test ()]
 		public void TestRGPOClub ()
 		{
-			var club = RGPOClub.RetrieveClub ("www.ajax.nl").Result;
+			var club = RGPOClub.CreateClub ("www.ajax.nl");
 			Assert.IsTrue (club != null && club.Identifier == 62);
 		}
 
