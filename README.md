@@ -1,6 +1,8 @@
 MobowskiSports
 ==============
 
+**PLEASE NOTE:** The information below isn't completely up to date anymore, e.g. the Async calls have been removed, due to the webservice front-end having issues with this approach. I will update this guide in the nearby future.
+
 A basic API for Mobowski to retrieve sport club information from several webservices. Currently support is build-in for both RGPO (wedstrijdprogramma.com) and MCN (mijnclub.nu).
 
 How to use the API
