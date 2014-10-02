@@ -45,22 +45,41 @@
     <Compile Include="Funtions.cs" />
     <Compile Include="OWKStandingParser.cs" />
     <Compile Include="OWKTeamParser.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
+    <Compile Include="OWKStandingParser.cs">
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="MCNMatchParser.cs" />
-    <Compile Include="MCNResultParser.cs" />
+    <Compile Include="OWKTeamParser.cs">
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MCNMatchParser.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCNResultParser.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="MCNSportManager.cs" />
-    <Compile Include="MCNStandingParser.cs" />
-    <Compile Include="MCNTeamParser.cs" />
+    <Compile Include="MCNStandingParser.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCNTeamParser.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="OWKSportManager.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="RGPOMatchParser.cs" />
-    <Compile Include="RGPOResultParser.cs" />
+    <Compile Include="RGPOMatchParser.cs">
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RGPOResultParser.cs">
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="RGPOSportManager.cs" />
-    <Compile Include="RGPOStandingParser.cs" />
-    <Compile Include="RGPOTeamParser.cs" />
+    <Compile Include="RGPOStandingParser.cs">
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RGPOTeamParser.cs">
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="SportManager.cs" />
     <Compile Include="Models\Club.cs" />
     <Compile Include="Models\Match.cs" />
@@ -68,17 +87,32 @@
     <Compile Include="Models\Standing.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="OWKMatchParser.cs" />
-    <Compile Include="OWKResultParser.cs" />
+    <Compile Include="OWKMatchParser.cs">
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OWKResultParser.cs">
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="OWKWebClient.cs">
       <SubType>Component</SubType>
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ErrorLogging\ErrorLogging.vbproj">
-      <Project>{ff8dd842-1ac3-49ca-ac75-a9bcb4ab96a5}</Project>
-      <Name>ErrorLogging</Name>
-    </ProjectReference>
+    <Compile Include="RGPOWebClient.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCNWebClient.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RGPOClub.cs">
+      <DependentUpon>RGPOSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OWKClub.cs">
+      <DependentUpon>OWKSportManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MCNClub.cs">
+      <DependentUpon>MCNSportManager.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

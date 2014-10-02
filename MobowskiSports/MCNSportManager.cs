@@ -8,12 +8,6 @@ namespace Mobowski.Core.Sports
 {
 	public class MCNSportManager : SportManagerBase
 	{
-		private const string _teamUrl = "http://mijnclub.nu/clubs/teams/xml/";
-		private const string _matchUrl = "http://mijnclub.nu/clubs/speelschema/xml/";
-		private const string _resultClubUrl = "http://mijnclub.nu/clubs/uitslagen/xml/";
-		private const string _resultsTeamUrl = "http://mijnclub.nu/clubs/teams/embed/";
-		private const string _standingUrl = "http://mijnclub.nu/clubs/teams/embed/";
-
 		public MCNSportManager (ClubBase club) : base (club)
 		{
 		}
@@ -24,10 +18,8 @@ namespace Mobowski.Core.Sports
 		{
 			var teams = new List<Team> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var url = _teamUrl + mcnClub.Identifier;
-				var doc = client.LoadXml (url);
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadTeamsXml ();
 
 				var parser = new MCNTeamParser ();
 				var nodes = doc.SelectNodes ("//team");
@@ -44,14 +36,8 @@ namespace Mobowski.Core.Sports
 		{
 			var matches = new List<Match> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var url = _matchUrl + mcnClub.Identifier;
-
-        //throw new Exception("url = " + url);
-        var doc = client.LoadXml (url);
-
-        
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadMatchesXml ();
 
 				var parser = new MCNMatchParser ();
 				var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
@@ -68,10 +54,8 @@ namespace Mobowski.Core.Sports
 		{
 			var matches = new List<Match> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var url = _matchUrl + mcnClub.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
-				var doc = client.LoadXml (url);
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadMatchesXml (team);
 
 				var parser = new MCNMatchParser ();
 				var nodes = doc.SelectNodes ("//wedstrijden/wedstrijd");
@@ -88,11 +72,8 @@ namespace Mobowski.Core.Sports
 		{
 			var standings = new List<Standing> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var encTeam = HttpUtility.UrlEncode (team.Name);
-				var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, mcnClub.Identifier, encTeam);
-				var doc = client.LoadXml (url);
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadStandingsXml (team);
 
 				var parser = new MCNStandingParser ();
 				var nodes = doc.SelectNodes ("//table/tbody/tr");
@@ -109,10 +90,8 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var url = _resultClubUrl + mcnClub.Identifier;
-				var doc = client.LoadXml (url);
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadResultsXml ();
 
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Club);
 				var nodes = doc.SelectNodes ("//wedstrijd");
@@ -129,11 +108,8 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new WebClient ()) {
-				var mcnClub = (MCNClub)Club;
-				var encTeam = HttpUtility.UrlEncode (team.Name);
-				var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, mcnClub.Identifier, encTeam);
-				var doc = client.LoadXml (url);
+			using (var client = new MCNWebClient ((MCNClub)Club)) {
+				var doc = client.LoadResultsXml (team);
 
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
 				var nodes = doc.SelectNodes ("//table/tbody/tr");
