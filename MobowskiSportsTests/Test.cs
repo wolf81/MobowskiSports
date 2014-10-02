@@ -3,40 +3,56 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Mobowski.Core.Sports;
 
-namespace MobowskiSportsTests
-{
+namespace MobowskiSportsTests {
 	[TestFixture ()]
-	public class Test
-	{
-		public Test ()
-		{
+	public class Test {
+		public Test () {
 		}
 
-		private MCNClub GetMCNClub ()
-		{
+		private MCNClub GetMCNClub () {
 			var parameters = new Dictionary<string, object> ();
 			parameters.Add ("Identifier", "BBHW92L");
 			return new MCNClub (parameters);
 		}
 
-		private Team GetMCNTeam ()
-		{
+		private Team GetMCNTeam () {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var teams = manager.RetrieveTeams ();
 			return (teams != null && teams.Count > 0) ? teams [0] : null;
 		}
 
-		[Test ()]
-		public void TestRGPOClub ()
-		{
-			var club = RGPOClub.CreateClub ("www.ajax.nl");
-			Assert.IsTrue (club != null && club.Identifier == 62);
+		private RGPOClub GetRGPOClub () {
+			return RGPOClub.CreateClub ("www.aswh.nl");
+		}
+
+		private Team GetRGPOTeam () {
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club);
+			var teams = manager.RetrieveTeams ();
+			return (teams != null && teams.Count > 0) ? teams [0] : null;
 		}
 
 		[Test ()]
-		public void TestMCNTeams ()
-		{
+		public void TestRGPOClub () {
+			var club = RGPOClub.CreateClub ("www.aswh.nl");
+			Assert.IsTrue (club != null && club.Identifier == 44);
+		}
+
+		[Test ()]
+		public void TestRGPOResults () {
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club);
+			var team = GetRGPOTeam ();
+			var matches = manager.RetrieveResults (team);
+
+			Console.WriteLine ("{0}", matches);
+
+			Assert.IsTrue (matches != null);
+		}
+
+		[Test ()]
+		public void TestMCNTeams () {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var teams = manager.RetrieveTeams ();
@@ -44,8 +60,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestMCNMatchesForClub ()
-		{
+		public void TestMCNMatchesForClub () {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var matches = manager.RetrieveMatches ();
@@ -53,8 +68,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestMCNMatchesForTeam ()
-		{
+		public void TestMCNMatchesForTeam () {
 			Team team = null;
 
 			var club = GetMCNClub ();
@@ -67,8 +81,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestMCNStandings ()
-		{
+		public void TestMCNStandings () {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club);
 			var team = GetMCNTeam ();
@@ -77,8 +90,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()] 
-		public void TestOWKTeams ()
-		{
+		public void TestOWKTeams () {
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var teams = manager.RetrieveTeams ();
@@ -86,8 +98,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestOWKMatches ()
-		{
+		public void TestOWKMatches () {
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var matches = manager.RetrieveMatches ();
@@ -95,8 +106,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestOWKStandings ()
-		{
+		public void TestOWKStandings () {
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var team = GetMCNTeam ();
@@ -105,8 +115,7 @@ namespace MobowskiSportsTests
 		}
 
 		[Test ()]
-		public void TestOWKResults ()
-		{
+		public void TestOWKResults () {
 			var club = new OWKClub (null);
 			var manager = SportManagerFactory.Create (club);
 			var results = manager.RetrieveResults ();

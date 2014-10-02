@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ADF4F5BA-131D-4BE7-9969-CCA720B94A18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MobowskiSports</RootNamespace>
@@ -42,15 +40,10 @@
   <ItemGroup>
     <Compile Include="Class\CacheStore.cs" />
     <Compile Include="Class\Database.cs" />
-    <Compile Include="Funtions.cs" />
     <Compile Include="OWKStandingParser.cs" />
     <Compile Include="OWKTeamParser.cs" />
-    <Compile Include="OWKStandingParser.cs">
-      <DependentUpon>OWKSportManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="OWKTeamParser.cs">
-      <DependentUpon>OWKSportManager.cs</DependentUpon>
-    </Compile>
+    <Compile Include="OWKStandingParser.cs" />
+    <Compile Include="OWKTeamParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MCNMatchParser.cs">
       <DependentUpon>MCNSportManager.cs</DependentUpon>
@@ -113,6 +106,7 @@
     <Compile Include="MCNClub.cs">
       <DependentUpon>MCNSportManager.cs</DependentUpon>
     </Compile>
+    <Compile Include="Functions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
