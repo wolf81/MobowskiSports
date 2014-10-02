@@ -127,7 +127,7 @@ namespace Mobowski.Core.Sports
 
 		public override List<Match> RetrieveMatches (Team team)
 		{
-			var matches = RetrieveMatches (team);
+			var matches = RetrieveMatches ();
 
 			// remove all matches that are not played by the chosen team ...
 			var predicate = new Predicate<Match> ((Match match) => {

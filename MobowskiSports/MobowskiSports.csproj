@@ -30,7 +30,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
     <Reference Include="Newtonsoft.Json">
@@ -38,6 +40,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\CacheStore.cs" />
+    <Compile Include="Class\Database.cs" />
+    <Compile Include="Funtions.cs" />
     <Compile Include="OWKStandingParser.cs" />
     <Compile Include="OWKTeamParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

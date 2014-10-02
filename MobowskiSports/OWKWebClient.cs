@@ -17,10 +17,6 @@ namespace Mobowski.Core.Sports
 		public string UploadString (string postData)
 		{
 			postData = String.Format ("{0}&{1}", _postData, postData);
-
-      ErrorLogging.ErrorLog.WriteError("baseAddress = " + BaseAddress + " | postData = " + postData);
-
-
 			return UploadString (BaseAddress, postData);
 		}
 	}

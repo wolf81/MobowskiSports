@@ -22,9 +22,12 @@ namespace Mobowski.Core.Sports
 			var teams = new List<Team> ();
 			var owkClub = (OWKClub)Club;
 
+
+
+
+
 			using (var client = new OWKWebClient (owkClub)) {
 				var jsonString = client.UploadString ("t=teams");
-        ErrorLog.WriteError("got json: " + jsonString);
 
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKTeamParser ();
