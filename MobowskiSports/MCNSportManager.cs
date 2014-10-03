@@ -4,18 +4,14 @@ using System.Web;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Mobowski.Core.Sports
-{
-	public class MCNSportManager : SportManagerBase
-	{
-		public MCNSportManager (ClubBase club) : base (club)
-		{
+namespace Mobowski.Core.Sports {
+	public class MCNSportManager : SportManagerBase {
+		public MCNSportManager (ClubBase club) : base (club) {
 		}
 
 		#region implemented abstract members of SportManagerBase
 
-		public override List<Team> RetrieveTeams ()
-		{
+		public override List<Team> RetrieveTeams () {
 			var teams = new List<Team> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
@@ -32,8 +28,7 @@ namespace Mobowski.Core.Sports
 			return teams;
 		}
 
-		public override List<Match> RetrieveMatches ()
-		{
+		public override List<Match> RetrieveMatches () {
 			var matches = new List<Match> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
@@ -50,8 +45,7 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Match> RetrieveMatches (Team team)
-		{
+		public override List<Match> RetrieveMatches (Team team) {
 			var matches = new List<Match> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
@@ -68,8 +62,7 @@ namespace Mobowski.Core.Sports
 			return matches;
 		}
 
-		public override List<Standing> RetrieveStandings (Team team)
-		{
+		public override List<Standing> RetrieveStandings (Team team) {
 			var standings = new List<Standing> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
@@ -86,8 +79,7 @@ namespace Mobowski.Core.Sports
 			return standings;
 		}
 
-		public override List<Result> RetrieveResults ()
-		{
+		public override List<Result> RetrieveResults () {
 			var results = new List<Result> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
@@ -104,12 +96,11 @@ namespace Mobowski.Core.Sports
 			return results;
 		}
 
-		public override List<Result> RetrieveResults (Team team)
-		{
+		public override List<Result> RetrieveResults (Team team) {
 			var results = new List<Result> ();
 
 			using (var client = new MCNWebClient ((MCNClub)Club)) {
-				var doc = client.LoadResultsXml (team);
+				var doc = client.LoadPouleResultsXml (team);
 
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
 				var nodes = doc.SelectNodes ("//table/tbody/tr");

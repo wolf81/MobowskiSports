@@ -1,25 +1,20 @@
 using System;
 using System.Xml;
 
-namespace Mobowski.Core.Sports
-{
-	internal class MCNResultParser : IParser<Result>
-	{
-		internal enum ParseMode
-		{
+namespace Mobowski.Core.Sports {
+	internal class MCNResultParser : IParser<Result> {
+		internal enum ParseMode {
 			Club = 0,
 			Team = 1
 		}
 
 		internal ParseMode Mode { get; private set; }
 
-		internal MCNResultParser (ParseMode parseMode)
-		{
+		internal MCNResultParser (ParseMode parseMode) {
 			this.Mode = parseMode;
 		}
 
-		private Result ParseResultClub (XmlNode node)
-		{
+		private Result ParseResultClub (XmlNode node) {
 			Result result = new Result ();
 
 			try {
@@ -38,8 +33,7 @@ namespace Mobowski.Core.Sports
 			return result;
 		}
 
-		private Result ParseResultTeam (XmlNode node)
-		{
+		private Result ParseResultTeam (XmlNode node) {
 			// TODO: this method could probably be cleaner ...
 			Result result = new Result ();
 
@@ -69,8 +63,14 @@ namespace Mobowski.Core.Sports
 				text = childNodes [2].InnerText;
 				items = text.Split (new char[] { '-' });
 				if (items.Length == 2) {
-					result.HomeTeamScore = Convert.ToInt32 (items [0]);
-					result.GuestTeamScore = Convert.ToInt32 (items [1]);
+					var homeScore = 0;
+					int.TryParse (items [0], out homeScore);
+
+					var guestScore = 0;
+					int.TryParse (items [1], out guestScore);
+
+					result.HomeTeamScore = homeScore;
+					result.GuestTeamScore = guestScore;
 				} else {
 					throw new Exception ("failed to parse score from string: " + text);
 				}
@@ -83,8 +83,7 @@ namespace Mobowski.Core.Sports
 
 		#region IParser implementation
 
-		public Result Parse (object data)
-		{
+		public Result Parse (object data) {
 			var node = (XmlNode)data;
 			Result result = null;
 

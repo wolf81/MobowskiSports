@@ -89,6 +89,15 @@ namespace MobowskiSportsTests {
 			Assert.IsTrue (standings != null && standings.Count > 0);
 		}
 
+		[Test ()]
+		public void TestMCNResults () {
+			var club = GetMCNClub ();
+			var manager = SportManagerFactory.Create (club);
+			var team = GetMCNTeam ();
+			var results = manager.RetrieveResults (team);
+			Assert.IsTrue (results != null && results.Count > 0);
+		}
+
 		[Test ()] 
 		public void TestOWKTeams () {
 			var club = new OWKClub (null);

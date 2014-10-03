@@ -42,8 +42,6 @@
     <Compile Include="Class\Database.cs" />
     <Compile Include="OWKStandingParser.cs" />
     <Compile Include="OWKTeamParser.cs" />
-    <Compile Include="OWKStandingParser.cs" />
-    <Compile Include="OWKTeamParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MCNMatchParser.cs">
       <DependentUpon>MCNSportManager.cs</DependentUpon>

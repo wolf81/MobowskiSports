@@ -4,10 +4,8 @@ using System.Net;
 using System.Web;
 using System.Xml;
 
-namespace Mobowski.Core.Sports
-{
-	public class MCNWebClient : WebClient
-	{
+namespace Mobowski.Core.Sports {
+	public class MCNWebClient : WebClient {
 		private MCNClub _club;
 		private const string _teamUrl = "http://mijnclub.nu/clubs/teams/xml/";
 		private const string _matchUrl = "http://mijnclub.nu/clubs/speelschema/xml/";
@@ -15,13 +13,11 @@ namespace Mobowski.Core.Sports
 		private const string _resultsTeamUrl = "http://mijnclub.nu/clubs/teams/embed/";
 		private const string _standingUrl = "http://mijnclub.nu/clubs/teams/embed/";
 
-		public MCNWebClient (MCNClub club) : base ()
-		{
+		public MCNWebClient (MCNClub club) : base () {
 			_club = club;
 		}
 
-		private XmlDocument LoadXml (string url)
-		{
+		private XmlDocument LoadXml (string url) {
 			var result = new XmlDocument ();
 
 			try {
@@ -35,37 +31,37 @@ namespace Mobowski.Core.Sports
 			return result;
 		}
 
-		public XmlDocument LoadTeamsXml ()
-		{
+		public XmlDocument LoadTeamsXml () {
 			return LoadXml (_teamUrl + _club.Identifier);
 		}
 
-		public XmlDocument LoadResultsXml ()
-		{
+		public XmlDocument LoadPouleResultsXml (Team team) {
+			var encTeam = HttpUtility.UrlEncode (team.Name);
+			var url = String.Format ("{0}{1}/team/{2}?layout=alle-uitslagen&poule=1&format=xml", _resultsTeamUrl, _club.Identifier, encTeam);
+			return LoadXml (url);
+		}
+
+		public XmlDocument LoadResultsXml () {
 			return LoadXml (_resultClubUrl + _club.Identifier);
 		}
 
-		public XmlDocument LoadMatchesXml ()
-		{
+		public XmlDocument LoadMatchesXml () {
 			return LoadXml (_matchUrl + _club.Identifier);
 		}
 
-		public XmlDocument LoadResultsXml (Team team)
-		{
+		public XmlDocument LoadResultsXml (Team team) {
 			var encTeam = HttpUtility.UrlEncode (team.Name);
 			var url = String.Format ("{0}{1}/team/{2}?layout=uitslagen&format=xml", _resultsTeamUrl, _club.Identifier, encTeam);
 			return LoadXml (url);
 		}
 
-		public XmlDocument LoadStandingsXml (Team team)
-		{
+		public XmlDocument LoadStandingsXml (Team team) {
 			var encTeam = HttpUtility.UrlEncode (team.Name);
 			var url = String.Format ("{0}{1}/team/{2}?layout=stand&stand=1&format=xml", _standingUrl, _club.Identifier, encTeam);
 			return LoadXml (url);
 		}
 
-		public XmlDocument LoadMatchesXml (Team team)
-		{
+		public XmlDocument LoadMatchesXml (Team team) {
 			var url = _matchUrl + _club.Identifier + "/periode,/team/" + HttpUtility.UrlEncode (team.Name);
 			return LoadXml (url);
 		}
