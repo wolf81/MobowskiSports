@@ -48,6 +48,9 @@ namespace Mobowski.Core.Sports {
 
 				// date
 				node = childNodes [0];
+				if (node != null) {
+					result.Date = node.InnerText.ToDate("dd-MM-yyyy");
+				}
 
 				// team
 				text = childNodes [1].InnerText;

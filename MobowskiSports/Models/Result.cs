@@ -5,6 +5,8 @@ namespace Mobowski.Core.Sports
 {
 	public class Result
 	{
+		public DateTime? Date { get; internal set; }
+
 		public string HomeTeam { get; internal set; }
 
 		public string GuestTeam { get; internal set; }

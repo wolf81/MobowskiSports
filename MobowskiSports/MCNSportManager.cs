@@ -103,7 +103,7 @@ namespace Mobowski.Core.Sports
 			var results = new List<Result> ();
 
 			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
-				var doc = client.LoadResultsXml (team);
+				var doc = client.LoadPouleResultsXml (team);
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);
 				var nodes = doc.SelectNodes ("//table/tbody/tr");
 				foreach (var node in nodes) {
