@@ -5,36 +5,78 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Web;
+using ErrorLogging;
 
 //using ErrorLogging;
 namespace Mobowski.Core.Sports
 {
 	public class OWKSportManager : SportManagerBase
 	{
-		public OWKSportManager (ClubBase club) : base (club)
+        public OWKSportManager(ClubBase club, ICacheController cacheController) : base(club, cacheController)
 		{
 		}
 
 		#region implemented abstract members of SportManagerBase
+
+
+        private string Left(string str, int count) {
+            if (str.Length > count) {
+                return str.Substring(0, count);
+            } else {
+                return str;
+            }
+        }
+
+        private string RetrieveAndOrStore(OWKWebClient client, string identifier) {
+            var returnValue = "";
+
+            var jsonString = client.CacheRetrieve(identifier);
+
+            if (jsonString == null) {
+                jsonString = client.UploadString(identifier);
+                //ErrorLogging.ErrorLog.WriteError("Got from UploadString");
+
+                if (jsonString != null) {
+                    client.CacheInsert(identifier, jsonString);
+                }
+            } else {
+                //ErrorLogging.ErrorLog.WriteError("Got from Cache: " + Left(jsonString, 30));
+            }
+
+            if (jsonString != null) {
+                returnValue = jsonString;
+            } else {
+                //ErrorLogging.ErrorLog.WriteError("JSONSTRING == NULL");
+            }
+
+            if (returnValue.IndexOf("alert") > 0) {
+                //ErrorLogging.ErrorLog.WriteError(jsonString);
+            }
+
+
+            return returnValue;
+        }
+
 
 		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=teams");
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=teams");
+
 //				ErrorLog.WriteError ("got json: " + jsonString);
 
-				var json = (JObject)JToken.Parse (jsonString);
+        		var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKTeamParser ();
 
-				var keys = json.Properties ().Select (p => p.Name).ToList ();
+                var keys = json.Properties().Select(p => p.Name).ToList();
 				foreach (var key in keys) {
-					var teamsJson = (JArray)json [key] ["v"];
+                	var teamsJson = (JArray)json [key] ["v"];
 
 					foreach (var teamJson in teamsJson) {
-						var team = parser.Parse (teamJson);
+                		var team = parser.Parse (teamJson);
 						teams.Add (team);
 					}
 				}
@@ -48,8 +90,8 @@ namespace Mobowski.Core.Sports
 			var matches = new List<Match> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=program");                
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=program");
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -74,8 +116,8 @@ namespace Mobowski.Core.Sports
 			var matches = new List<Match> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=program&t_id=" + team.Identifier); 
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=program&t_id=" + team.Identifier);
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKMatchParser ();
 
@@ -101,8 +143,8 @@ namespace Mobowski.Core.Sports
 			var standings = new List<Standing> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=standing&t_id=" + team.Identifier); 
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=standing&t_id=" + team.Identifier);
 				var json = (JArray)JToken.Parse (jsonString);
 				var parser = new OWKStandingParser ();
 
@@ -122,9 +164,8 @@ namespace Mobowski.Core.Sports
 			var results = new List<Result> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=result");
-
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=result");
 //				ErrorLog.WriteError ("got json: " + jsonString);
 
 				var json = (JObject)JToken.Parse (jsonString);
@@ -149,8 +190,8 @@ namespace Mobowski.Core.Sports
 			var results = new List<Result> ();
 			var owkClub = (OWKClub)Club;
 
-			using (var client = new OWKWebClient (owkClub)) {
-				var jsonString = client.UploadString ("t=result&t_id=" + team.Identifier); 
+			using (var client = new OWKWebClient (this, owkClub)) {
+                var jsonString = RetrieveAndOrStore(client, "t=result&t_id=" + team.Identifier);
 				var json = (JObject)JToken.Parse (jsonString);
 				var parser = new OWKResultParser ();
 

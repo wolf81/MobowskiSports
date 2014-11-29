@@ -40,11 +40,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\CacheStore.cs" />
-    <Compile Include="Class\Database.cs" />
-    <Compile Include="Funtions.cs" />
-    <Compile Include="OWKStandingParser.cs" />
-    <Compile Include="OWKTeamParser.cs" />
+    <Compile Include="CachingWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ICacheController.cs" />
     <Compile Include="OWKStandingParser.cs">
       <DependentUpon>OWKSportManager.cs</DependentUpon>
     </Compile>
@@ -103,6 +102,7 @@
     </Compile>
     <Compile Include="MCNWebClient.cs">
       <DependentUpon>MCNSportManager.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="RGPOClub.cs">
       <DependentUpon>RGPOSportManager.cs</DependentUpon>
@@ -113,6 +113,15 @@
     <Compile Include="MCNClub.cs">
       <DependentUpon>MCNSportManager.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Class\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ErrorLogging\ErrorLogging.vbproj">
+      <Project>{ff8dd842-1ac3-49ca-ac75-a9bcb4ab96a5}</Project>
+      <Name>ErrorLogging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,7 +9,7 @@ namespace Mobowski.Core.Sports
 	/// The standard WebClient doesn't support cookies out-of-the-box. This subclass fixes the 
 	/// cookie issue, whenever it's required.
 	/// </summary>
-	internal class RGPOWebClient : WebClient
+	internal class RGPOWebClient : CachingWebClient
 	{
 		// cookie handling
 		private CookieContainer _cc = new CookieContainer ();
@@ -24,7 +24,7 @@ namespace Mobowski.Core.Sports
 		private const string _standingsKvnbUrl = "http://www.wedstrijdprogramma.com/api.php?action=standen2";
 		private const string _clubUrl = "http://www.wedstrijdprogramma.com/api.php?action=vereniging";
 
-		public RGPOWebClient (RGPOClub club)
+        public RGPOWebClient (SportManagerBase sportManager, RGPOClub club) : base(sportManager)
 		{
 			_club = club;
 		}
@@ -78,20 +78,41 @@ namespace Mobowski.Core.Sports
 		private XmlDocument LoadXml (string url)
 		{
 			XmlDocument result = null;
+            byte[] data = null;
 
-			var response = GetChallengeResponse ();
-			if (response != null) {
-				result = new XmlDocument ();
-				try {
-					url += String.Format ("&response={0}", response);
-					var data = DownloadData (url);
-					var stream = new MemoryStream (data);
-					result.Load (stream);
-				} catch (Exception ex) {
-					throw new Exception ("failed to load XML", ex);
-				}
-			}
+            if ((SportManager != null) && (SportManager.CacheController != null)) {
+                data = SportManager.CacheController.RetrieveByteDataFromCache(url);
+                if (data != null) {
+                    result = new XmlDocument();
+                    var stream = new MemoryStream(data);
+                    result.Load(stream);
+                }
+            }
 
+            if (data == null) {
+                var response = GetChallengeResponse();
+                
+                if (response != null) {
+                    result = new XmlDocument();
+                    
+                    try {
+                        var requesturi = url + String.Format("&response={0}", response);
+
+                        //url += String.Format("&response={0}", response);
+                        data = DownloadData(requesturi);
+
+                        if ((SportManager != null) && (SportManager.CacheController != null)) {
+                            SportManager.CacheController.StoreByteDataInCache(url, data);
+                        }
+
+                        var stream = new MemoryStream(data);
+                        result.Load(stream);
+                    } catch (Exception ex) {
+                        throw new Exception("failed to load XML", ex);
+                    }
+                }
+            }
+ 
 			return result;
 		}
 
@@ -99,7 +120,8 @@ namespace Mobowski.Core.Sports
 		{
 			XmlDocument result = null;
 
-			using (var client = new RGPOWebClient (null)) {
+            // due to the current architecture it's not possible to cache the Clubs.
+			using (var client = new RGPOWebClient (null, null)) {
 				result = client.LoadXml (_clubUrl);
 			}
 

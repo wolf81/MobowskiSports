@@ -8,7 +8,7 @@ namespace Mobowski.Core.Sports
 {
 	public class MCNSportManager : SportManagerBase
 	{
-		public MCNSportManager (ClubBase club) : base (club)
+		public MCNSportManager (ClubBase club, ICacheController cacheController) : base (club, cacheController)
 		{
 		}
 
@@ -17,8 +17,8 @@ namespace Mobowski.Core.Sports
 		public override List<Team> RetrieveTeams ()
 		{
 			var teams = new List<Team> ();
-
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+            
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadTeamsXml ();
 
 				var parser = new MCNTeamParser ();
@@ -36,7 +36,7 @@ namespace Mobowski.Core.Sports
 		{
 			var matches = new List<Match> ();
 
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadMatchesXml ();
 
 				var parser = new MCNMatchParser ();
@@ -54,7 +54,7 @@ namespace Mobowski.Core.Sports
 		{
 			var matches = new List<Match> ();
 
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadMatchesXml (team);
 
 				var parser = new MCNMatchParser ();
@@ -72,7 +72,7 @@ namespace Mobowski.Core.Sports
 		{
 			var standings = new List<Standing> ();
 
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadStandingsXml (team);
 
 				var parser = new MCNStandingParser ();
@@ -90,7 +90,7 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadResultsXml ();
 
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Club);
@@ -108,7 +108,7 @@ namespace Mobowski.Core.Sports
 		{
 			var results = new List<Result> ();
 
-			using (var client = new MCNWebClient ((MCNClub)Club)) {
+			using (var client = new MCNWebClient (this, (MCNClub)Club)) {
 				var doc = client.LoadResultsXml (team);
 
 				var parser = new MCNResultParser (MCNResultParser.ParseMode.Team);

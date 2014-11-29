@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+
 public class CacheStore {
     private string _tableName;
     private DateTime _expirationData;
@@ -14,6 +15,7 @@ public class CacheStore {
     private string _connectionString;
 
     private bool _cacheCleared;
+    
     public CacheStore() {
     }
 

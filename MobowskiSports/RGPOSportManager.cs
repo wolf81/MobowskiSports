@@ -10,7 +10,7 @@ namespace Mobowski.Core.Sports
 {
 	public class RGPOSportManager : SportManagerBase
 	{
-		public RGPOSportManager (ClubBase club) : base (club)
+		public RGPOSportManager (ClubBase club, ICacheController cacheController) : base (club, cacheController)
 		{
 		}
 
@@ -21,7 +21,7 @@ namespace Mobowski.Core.Sports
 			var teams = new List<Team> ();
 			var rgpoClub = (RGPOClub)Club;
 
-			using (var client = new RGPOWebClient (rgpoClub)) {
+			using (var client = new RGPOWebClient (this, rgpoClub)) {
 				var doc = client.LoadTeamsXml ();
 
 				var parser = new RGPOTeamParser ();
@@ -40,7 +40,7 @@ namespace Mobowski.Core.Sports
 			var matches = new List<Match> ();
 			var rgpoClub = (RGPOClub)Club;
 
-			using (var client = new RGPOWebClient (rgpoClub)) {
+			using (var client = new RGPOWebClient (this, rgpoClub)) {
 				var doc = client.LoadMatchesXml ();
 
 				var parser = new RGPOMatchParser ();
@@ -74,7 +74,7 @@ namespace Mobowski.Core.Sports
 			var standings = new List<Standing> ();
 			var rgpoClub = (RGPOClub)Club;
 
-			using (var client = new RGPOWebClient (rgpoClub)) {
+			using (var client = new RGPOWebClient (this, rgpoClub)) {
 				var doc = client.LoadStandingsXml (team);
 
 				var parser = new RGPOStandingParser ();
@@ -99,7 +99,7 @@ namespace Mobowski.Core.Sports
 			var results = new List<Result> ();
 			var rgpoClub = (RGPOClub)Club;
 
-			using (var client = new RGPOWebClient (rgpoClub)) {
+			using (var client = new RGPOWebClient (this, rgpoClub)) {
 				var doc = client.LoadResultsXml (team);
 
 				var parser = new RGPOResultParser ();

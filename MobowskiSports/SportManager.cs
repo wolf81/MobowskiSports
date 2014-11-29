@@ -24,10 +24,12 @@ namespace Mobowski.Core.Sports
 	{
 		public ClubBase Club { get; private set; }
 
-		public SportManagerBase (ClubBase club)
-		{
-			this.Club = club;
-		}
+        public ICacheController CacheController { get; private set; }
+
+        public SportManagerBase(ClubBase club, ICacheController cacheController) {
+            Club = club;
+            CacheController = cacheController;
+        }
 
 		public Team RetrieveTeam (int identifier)
 		{
@@ -60,15 +62,15 @@ namespace Mobowski.Core.Sports
 	/// </summary>
 	public abstract class SportManagerFactory
 	{
-		public static SportManagerBase Create (ClubBase club)
+        public static SportManagerBase Create(ClubBase club, ICacheController cacheController)
 		{
 			switch (club.Provider) {
 			case SportDataProvider.RGPO:
-				return new RGPOSportManager (club);
+				return new RGPOSportManager (club, cacheController);
 			case SportDataProvider.MCN:
-				return new MCNSportManager (club);
+				return new MCNSportManager (club, cacheController);
 			case SportDataProvider.OWK:
-				return new OWKSportManager (club);
+				return new OWKSportManager (club, cacheController);
 			}
 
 			return null;

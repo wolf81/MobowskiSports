@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MobowskiSports {
+
     public static class Funtions {
         public static object RetrieveDataFromCache(string strGUID, DateTime datExpiration = null) {
             if (datExpiration == null)
                 datExpiration = DateTime.Now.AddHours(1);
 
-            clsCacheStore objCache = new clsCacheStore();
+            var objCache = new CacheStore();
             string strReturn = null;
 
             var _with1 = objCache;
+
             _with1.ConnectionString = Connection.GetConnectionString();
             _with1.ExpirationDate = datExpiration;
             _with1.GUID = strGUID;
@@ -83,5 +85,4 @@ namespace MobowskiSports {
 
     
     
-    }
 }

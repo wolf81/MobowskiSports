@@ -19,7 +19,7 @@ namespace Mobowski.Core.Sports
 
 		/// <summary>
 		/// Interacts with the RGPO webservice to retrieve properties for a club based on the referer. 
-		/// These properties are then used to construct a RGPO Club object.
+		/// These properties are then used to construct an RGPO Club object.
 		/// </summary>
 		/// <returns>The club.</returns>
 		/// <param name="referer">Referer.</param>

@@ -3,10 +3,11 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Xml;
+using System.Net.Cache;
 
 namespace Mobowski.Core.Sports
 {
-	public class MCNWebClient : WebClient
+	public class MCNWebClient : CachingWebClient
 	{
 		private MCNClub _club;
 		private const string _teamUrl = "http://mijnclub.nu/clubs/teams/xml/";
@@ -15,9 +16,9 @@ namespace Mobowski.Core.Sports
 		private const string _resultsTeamUrl = "http://mijnclub.nu/clubs/teams/embed/";
 		private const string _standingUrl = "http://mijnclub.nu/clubs/teams/embed/";
 
-		public MCNWebClient (MCNClub club) : base ()
+		public MCNWebClient (SportManagerBase sportManager, MCNClub club) : base (sportManager)
 		{
-			_club = club;
+            _club = club;
 		}
 
 		private XmlDocument LoadXml (string url)
@@ -25,9 +26,23 @@ namespace Mobowski.Core.Sports
 			var result = new XmlDocument ();
 
 			try {
-				var data = DownloadData (url);
+                Byte[] data = null;
+
+                if (SportManager.CacheController != null) { 
+                    data = SportManager.CacheController.RetrieveByteDataFromCache(url);
+                }
+
+                if (data == null) {
+                    data = DownloadData(url);
+
+                    if (SportManager.CacheController != null) {
+                        SportManager.CacheController.StoreByteDataInCache(url, data);
+                    }
+                }
+ 
 				var stream = new MemoryStream (data);
-				result.Load (stream);
+
+				result.Load (stream);               
 			} catch (Exception ex) {
 				throw new Exception ("failed to load XML", ex);
 			}
