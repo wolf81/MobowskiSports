@@ -27,6 +27,11 @@ namespace Mobowski.Core.Sports
 				if (testNode.InnerText != null && testNode.InnerText.Length > 0) {
 					result.GuestTeamScore = Convert.ToInt32 (testNode.InnerText);
 				}
+
+				testNode = node.SelectSingleNode("datum");
+				if (testNode.InnerText != null && testNode.InnerText.Length > 0) {
+					result.Date = testNode.InnerText.ToDate("dd-MMM");
+				}
 			} catch (Exception ex) {
 				throw new Exception ("failed to parse RGPO result", ex);		
 			}

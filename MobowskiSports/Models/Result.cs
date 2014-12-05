@@ -21,7 +21,7 @@ namespace Mobowski.Core.Sports
 
 		public override string ToString ()
 		{
-			return string.Format ("[Result: HomeTeam={0}, GuestTeam={1}, HomeTeamScore={2}, GuestTeamScore={3}]", HomeTeam, GuestTeam, HomeTeamScore, GuestTeamScore);
+			return string.Format ("[Result: Date={0}, HomeTeam={1}, GuestTeam={2}, HomeTeamScore={3}, GuestTeamScore={4}]", Date, HomeTeam, GuestTeam, HomeTeamScore, GuestTeamScore);
 		}
 	}
 }

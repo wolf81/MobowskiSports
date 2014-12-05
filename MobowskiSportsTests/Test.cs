@@ -17,7 +17,7 @@ namespace MobowskiSportsTests {
 
 		private MCNClub GetMCNClub () {
 			var parameters = new Dictionary<string, object> ();
-			parameters.Add ("Identifier", "BBHW92L");
+			parameters.Add ("Identifier", "BBBJ19X"); // BBHW92L
 			return new MCNClub (parameters);
 		}
 
@@ -47,6 +47,18 @@ namespace MobowskiSportsTests {
 
 		[Test ()]
 		public void TestRGPOResults () {
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club, this.CacheController);
+			var team = GetRGPOTeam ();
+			var matches = manager.RetrieveResults (team);
+
+			Console.WriteLine ("{0}", matches);
+
+			Assert.IsTrue (matches != null);
+		}
+
+		[Test ()]
+		public void TestRGPOPouleResults () {
 			var club = GetRGPOClub ();
 			var manager = SportManagerFactory.Create (club, this.CacheController);
 			var team = GetRGPOTeam ();
