@@ -70,6 +70,18 @@ namespace MobowskiSportsTests {
 		}
 
 		[Test ()]
+		public void TestRGPOStandings () {
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club, this.CacheController);
+			var team = GetRGPOTeam ();
+			var standings = manager.RetrieveStandings (team);
+
+			Console.WriteLine ("{0}", standings);
+
+			Assert.IsTrue (standings != null);
+		}
+
+		[Test ()]
 		public void TestMCNTeams () {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club, this.CacheController);

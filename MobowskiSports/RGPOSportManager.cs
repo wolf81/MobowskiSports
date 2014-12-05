@@ -76,7 +76,7 @@ namespace Mobowski.Core.Sports
 				var doc = client.LoadStandingsXml (team);
 
 				var parser = new RGPOStandingParser ();
-				var nodes = doc.SelectNodes ("//ranglijst/ranglijstitem");
+				var nodes = doc.SelectNodes ("//ranglijst[1]/ranglijstitem");
 				foreach (var node in nodes) {
 					var standing = parser.Parse (node);
 					standings.Add (standing);

@@ -12,6 +12,11 @@ namespace Mobowski.Core.Sports
 		internal Team ()
 		{
 		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[Team: Identifier={0}, Name={1}]", Identifier, Name);
+		}
 	}
 }
 
