@@ -30,7 +30,7 @@ namespace Mobowski.Core.Sports
 
 				testNode = node.SelectSingleNode("datum");
 				if (testNode.InnerText != null && testNode.InnerText.Length > 0) {
-					result.Date = testNode.InnerText.ToDate("d-MMM");
+					result.Date = testNode.InnerText.ToDate("d-MMM") ?? testNode.InnerText.ToDate("dd-MM-yyyy");
 				}
 			} catch (Exception ex) {
 				throw new Exception ("failed to parse RGPO result", ex);		

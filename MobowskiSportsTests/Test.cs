@@ -29,19 +29,19 @@ namespace MobowskiSportsTests {
 		}
 
 		private RGPOClub GetRGPOClub () {
-			return RGPOClub.CreateClub ("www.aswh.nl");
+			return RGPOClub.CreateClub ("www.candia66.nl");
 		}
 
 		private Team GetRGPOTeam () {
 			var club = GetRGPOClub ();
 			var manager = SportManagerFactory.Create (club, this.CacheController);
 			var teams = manager.RetrieveTeams ();
-			return (teams != null && teams.Count > 0) ? teams [0] : null;
+			return (teams != null && teams.Count > 0) ? teams [11] : null;
 		}
 
 		[Test ()]
 		public void TestRGPOClub () {
-			var club = RGPOClub.CreateClub ("www.aswh.nl");
+			var club = RGPOClub.CreateClub ("www.candia66.nl");
 			Assert.IsTrue (club != null && club.Identifier == 44);
 		}
 
@@ -55,6 +55,14 @@ namespace MobowskiSportsTests {
 			Console.WriteLine ("{0}", matches);
 
 			Assert.IsTrue (matches != null);
+		}
+
+		[Test ()]
+		public void TestRGPOMatches () {
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club, this.CacheController);
+			var matches = manager.RetrieveMatches ();
+			Assert.IsTrue (matches != null && matches.Count > 0);
 		}
 
 		[Test ()]
