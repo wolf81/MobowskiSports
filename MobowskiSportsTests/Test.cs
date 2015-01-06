@@ -66,6 +66,21 @@ namespace MobowskiSportsTests {
 		}
 
 		[Test ()]
+		public void TestRGPOMatchesForTeam () {
+			Team team = null;
+
+			var club = GetRGPOClub ();
+			var manager = SportManagerFactory.Create (club, this.CacheController);
+			var teams = manager.RetrieveTeams ();
+			if (teams != null && teams.Count > 0) {
+				team = teams [22];
+			}
+			var matches = manager.RetrieveMatches (team);
+
+			Assert.IsTrue (matches != null);
+		}
+
+		[Test ()]
 		public void TestRGPOPouleResults () {
 			var club = GetRGPOClub ();
 			var manager = SportManagerFactory.Create (club, this.CacheController);

@@ -24,6 +24,8 @@ namespace Mobowski.Core.Sports {
 		// KNVB data source required for poule matches!
 		private const string _pouleMatchUrl = "http://www.wedstrijdprogramma.com/api.php?action=poule";
 		private const string _clubUrl = "http://www.wedstrijdprogramma.com/api.php?action=vereniging";
+			
+		// http://www.wedstrijdprogramma.com/api.php?action=wedstrijden&vereniging_id=68&team_id=102781&response=1744502599
 
     public RGPOWebClient (SportManagerBase sportManager, RGPOClub club) : base(sportManager)
 		{
@@ -149,6 +151,11 @@ namespace Mobowski.Core.Sports {
 
 		public XmlDocument LoadMatchesXml () {
 			var url = String.Format ("{0}&vereniging_id={1}", _matchUrl, _club.Identifier);
+			return LoadXml (url);
+		}
+
+		public XmlDocument LoadMatchesXml(Team team) {
+			var url = String.Format ("{0}&vereniging_id={1}&team_id={2}", _matchUrl, _club.Identifier, team.Identifier);
 			return LoadXml (url);
 		}
 	}

@@ -54,18 +54,20 @@ namespace Mobowski.Core.Sports
 
 		public override List<Match> RetrieveMatches (Team team) {
 			var matches = new List<Match> ();
+			var rgpoClub = (RGPOClub)Club;
 
-			matches = RetrieveMatches ();
+			using (var client = new RGPOWebClient (this, rgpoClub)) {
+				var doc = client.LoadMatchesXml (team);
 
-			// remove all matches that are not played by the chosen team ...
-			var predicate = new Predicate<Match> ((Match match) => {
-				var isHostTeam = match.HostTeam.Equals (team.Name);
-				var isGuestTeam = match.GuestTeam.Equals (team.Name);
-				return (!isHostTeam && !isGuestTeam);
-			});
-			matches.RemoveAll (predicate);
+				var parser = new RGPOMatchParser ();
+				var nodes = doc.SelectNodes ("//wedstrijd");
+				foreach (var node in nodes) {
+					var match = parser.Parse (node);
+					matches.Add (match);
+				}
+			}
 
-			return matches;			
+			return matches;
 		}
 
 		public override List<Standing> RetrieveStandings (Team team) {
