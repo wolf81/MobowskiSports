@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Globalization;
 
 namespace Mobowski.Core.Sports
 {
@@ -30,7 +31,8 @@ namespace Mobowski.Core.Sports
 
 				testNode = node.SelectSingleNode("datum");
 				if (testNode.InnerText != null && testNode.InnerText.Length > 0) {
-					result.Date = testNode.InnerText.ToDate("d-MMM") ?? testNode.InnerText.ToDate("dd-MM-yyyy");
+					CultureInfo culture = new CultureInfo("nl-NL");
+					result.Date = testNode.InnerText.ToDate("d-MMM", culture) ?? testNode.InnerText.ToDate("dd-MM-yyyy");
 				}
 			} catch (Exception ex) {
 				throw new Exception ("failed to parse RGPO result", ex);		

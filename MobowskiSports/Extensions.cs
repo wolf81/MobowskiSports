@@ -26,16 +26,20 @@ namespace Mobowski.Core
 			return doc;
 		}
 
-		public static DateTime? ToDate (this string dateTimeStr, string dateFmt)
-		{
+		public static DateTime? ToDate (this string dateTimeStr, string dateFmt, CultureInfo culture) {
 			const DateTimeStyles style = DateTimeStyles.AllowWhiteSpaces;
 			DateTime? result = null;
 			DateTime dt;
-			if (DateTime.TryParseExact (dateTimeStr, dateFmt, CultureInfo.InvariantCulture, style, out dt)) {
+			if (DateTime.TryParseExact (dateTimeStr, dateFmt, culture, style, out dt)) {
 				result = dt;
 			}
 
-			return result;
+			return result;		
+		}
+
+		public static DateTime? ToDate (this string dateTimeStr, string dateFmt)
+		{
+			return ToDate (dateTimeStr, dateFmt, CultureInfo.InvariantCulture);
 		}
 
 		public static string AttributeValue (this XmlNode element, string node)

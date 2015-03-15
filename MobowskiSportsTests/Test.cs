@@ -29,7 +29,7 @@ namespace MobowskiSportsTests {
 		}
 
 		private RGPOClub GetRGPOClub () {
-			return RGPOClub.CreateClub ("www.candia66.nl");
+			return RGPOClub.CreateClub ("www.aswh.nl");
 		}
 
 		private Team GetRGPOTeam () {
@@ -130,6 +130,7 @@ namespace MobowskiSportsTests {
 			if (teams != null && teams.Count > 0) {
 				team = teams [0];
 			}
+			var matches = manager.RetrieveMatches (team);
 			Assert.IsTrue (team != null);
 		}
 
@@ -147,9 +148,19 @@ namespace MobowskiSportsTests {
 			var club = GetMCNClub ();
 			var manager = SportManagerFactory.Create (club, this.CacheController);
 			var team = GetMCNTeam ();
+			var results = manager.RetrieveResults();
+			Assert.IsTrue (results != null && results.Count > 0);
+		}
+
+		[Test ()]
+		public void TestMCNResultsForTeam () {
+			var club = GetMCNClub ();
+			var manager = SportManagerFactory.Create (club, this.CacheController);
+			var team = GetMCNTeam ();
 			var results = manager.RetrieveResults (team);
 			Assert.IsTrue (results != null && results.Count > 0);
 		}
+
 
 		[Test ()] 
 		public void TestOWKTeams () {
