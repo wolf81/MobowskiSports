@@ -18,6 +18,11 @@ namespace Mobowski.Core.Sports {
 			Result result = new Result ();
 
 			try {
+				var dateString = (string)node.SelectSingleNode("./datum").InnerText;
+				if (dateString != null) {
+					result.Date = dateString.ToDate("yyyy-MM-dd");
+				}
+
 				result.HomeTeam = (string)node.SelectSingleNode ("./thuisteam").InnerText;
 				result.GuestTeam = (string)node.SelectSingleNode ("./uitteam").InnerText;
 
